@@ -1,0 +1,9 @@
+^pkgdown$
+^_pkgdown\.yml$
+^docs$
+^codecov\.yml$
+^\.travis\.yml$
+^LICENSE\.md$
+^README\.Rmd$
+^geotidy\.Rproj$
+^\.Rproj\.user$

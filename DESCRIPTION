@@ -1,0 +1,29 @@
+Package: geotidy
+Title: Tidy manipulation of spatial data
+Version: 0.0.0.9000
+Authors@R: 
+    person(given = "Etienne",
+           family = "Racine",
+           role = c("aut", "cre"),
+           email = "etiennebr@gmail.com",
+           comment = c(ORCID = "0000-0003-1109-894X"))
+Description: Manipulate spatial data tidily. `Geotidy` provides a selection of 
+    spatial functions from the `sf` package that are adapted to a tidy workflow. 
+    It relies on tibbles and `dplyr` verbs, and forces you to be explicit about 
+    the spatial operations you desire. 
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+Imports: 
+    sf,
+    dplyr,
+    tibble,
+    purrr,
+    magrittr,
+    RColorBrewer (>= 1.1.2),
+    usethis (>= 1.4.0.9000)
+Suggests: 
+    testthat,
+    covr
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 6.1.1
