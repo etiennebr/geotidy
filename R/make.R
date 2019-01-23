@@ -20,7 +20,7 @@
 #'
 #' @family make
 #' @export
-#' @seealso sf::st_point
+#' @seealso [sf::st_point]
 #' @examples
 #' library(tibble)
 #' library(dplyr)
@@ -37,9 +37,22 @@ st_makepoint <- function(.x, .y, crs = sf::NA_crs_) {
   sf::st_as_sfc(pts, crs = crs)
 }
 
-#' @family make
 #' @rdname st_point
 #' @inheritParams st_makepoint
 #' @export
 st_point <- st_makepoint
 
+#' Aggregate geometries
+#'
+#' Returns the geometry as a `MULTI*` geometry. If the geometry is already a `MULTI*`, it is returned unchanged.
+#' @param .geom A geometry or a set of geometries of class `sfc` to be grouped. The geometries
+#'   are often aggregated using a [dplyr::group_by()] followed by a
+#'   [dplyr::summarise()].
+#' @param ... Unused.
+#' @export
+#' @family make
+st_multi <- function(.geom, ...) UseMethod("st_multi")
+
+st_multi.sfc_POINT <- function(.geom, ...) {
+  sf::st_cast(sf::st_union(.geom), to = "MULTIPOINT")
+}

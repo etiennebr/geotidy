@@ -35,6 +35,8 @@ df \%>\%
   mutate(geometry = st_point(longitude, latitude))
 }
 \seealso{
-sf::st_point
+\link[sf:st_point]{sf::st_point}
+
+Other make: \code{\link{st_multi}}
 }
 \concept{make}

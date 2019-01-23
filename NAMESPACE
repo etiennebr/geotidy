@@ -2,6 +2,7 @@
 
 export("%>%")
 export(st_makepoint)
+export(st_multi)
 export(st_point)
 import(dplyr)
 import(tibble)
