@@ -49,6 +49,15 @@ test_that("st_multi on points returns multipoints", {
   expect_is(x[["multi"]], "sfc")
 })
 
+
+test_that("If the geometry is already a `MULTI*`, it is returned unchanged.", {
+  x <- tibble::tibble(g = c("a", "a"), point = c(st_point(12, 21), st_point(21, 12))) %>%
+    group_by(g) %>%
+    summarise(multi = st_multi(point)) %>%
+    mutate(multi2 = st_multi(multi))
+  expect_is(x[["multi"]], "sfc_MULTIPOINT")
+  expect_is(x[["multi"]], "sfc")
+})
 # line --------------------------------------------------------------------
 
 # ST_MakeLine — Creates a Linestring from point, multipoint, or line geometries.
