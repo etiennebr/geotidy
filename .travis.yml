@@ -3,11 +3,33 @@
 language: R
 cache: packages
 
+language: R
+sudo: false
+cache: packages
+
+addons:
+  apt:
+    sources:
+      - sourceline: 'ppa:ubuntugis/ubuntugis-unstable'
+    packages:
+      - libudunits2-dev
+      - libgdal-dev
+      - libgeos-dev
+      - libproj-dev
+
+matrix:
+  include:
+  - r: devel
+  - r: release
+    after_success: Rscript -e 'covr::codecov()'
+    before_deploy: Rscript -e 'remotes::install_cran("pkgdown")'
+    deploy:
+      provider: script
+      script: Rscript -e 'pkgdown::deploy_site_github()'
+      skip_cleanup: true
+
 before_deploy: Rscript -e 'remotes::install_cran("pkgdown")'
 deploy:
   provider: script
   script: Rscript -e 'pkgdown::deploy_site_github()'
   skip_cleanup: true
-
-after_success:
-  - Rscript -e 'covr::codecov()'
