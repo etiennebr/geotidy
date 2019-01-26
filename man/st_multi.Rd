@@ -13,8 +13,16 @@ are often aggregated using a \code{\link[dplyr:group_by]{dplyr::group_by()}} fol
 
 \item{...}{Unused.}
 }
+\value{
+a single \code{MULTI*} geometry.
+}
 \description{
 Returns the geometry as a \code{MULTI*} geometry. If the geometry is already a \code{MULTI*}, it is returned unchanged.
+}
+\examples{
+tibble::tibble(g = c("a", "a"), point = c(st_point(12, 21), st_point(21, 12)))
+  group_by(g) \%>\%
+  summarise(multi = st_multi(point))
 }
 \seealso{
 Other make: \code{\link{st_makepoint}}
