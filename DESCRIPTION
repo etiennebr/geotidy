@@ -19,11 +19,11 @@ Imports:
     dplyr,
     tibble,
     purrr,
-    magrittr,
-    RColorBrewer (>= 1.1.2),
-    usethis (>= 1.4.0.9000)
+    magrittr
 Suggests: 
     testthat,
+    RColorBrewer,
+    usethis,
     covr
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 6.1.1
