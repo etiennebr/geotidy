@@ -20,7 +20,10 @@ a single \code{MULTI*} geometry.
 Returns the geometry as a \code{MULTI*} geometry. If the geometry is already a \code{MULTI*}, it is returned unchanged.
 }
 \examples{
-tibble::tibble(g = c("a", "a"), point = c(st_point(12, 21), st_point(21, 12)))
+library(tibble)
+library(dplyr)
+
+tibble(g = c("a", "a"), point = c(st_point(12, 21), st_point(21, 12))) \%>\%
   group_by(g) \%>\%
   summarise(multi = st_multi(point))
 }

@@ -51,17 +51,22 @@ st_point <- st_makepoint
 #' @param ... Unused.
 #' @return a single `MULTI*` geometry.
 #' @examples
-#' tibble::tibble(g = c("a", "a"), point = c(st_point(12, 21), st_point(21, 12)))
+#' library(tibble)
+#' library(dplyr)
+#'
+#' tibble(g = c("a", "a"), point = c(st_point(12, 21), st_point(21, 12))) %>%
 #'   group_by(g) %>%
 #'   summarise(multi = st_multi(point))
 #' @export
 #' @family make
 st_multi <- function(.geom, ...) UseMethod("st_multi")
 
+#' @export
 st_multi.sfc_POINT <- function(.geom, ...) {
   sf::st_cast(sf::st_union(.geom), to = "MULTIPOINT")
 }
 
+#' @export
 st_multi.sfc_MULTIPOINT <- function(.geom, ...) {
   sf::st_union(.geom)
 }

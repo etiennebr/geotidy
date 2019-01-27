@@ -40,7 +40,7 @@ test_that("st_multi on point returns multipoint", {
 })
 
 test_that("st_multi on points returns multipoints", {
-  x <- tibble::tibble(g = c("a", "a"), point = c(st_point(12, 21), st_point(21, 12)))
+  x <- tibble::tibble(g = c("a", "a", "b"), point = c(st_point(12, 21), st_point(21, 12), st_point(14, 15)))
   x <-
     x %>%
     group_by(g) %>%
