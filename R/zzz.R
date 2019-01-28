@@ -1,3 +1,5 @@
+# nocov start
+
 # setup_repo
 .geotidy_setup <- function() {
   usethis::use_readme_rmd()
@@ -50,3 +52,4 @@
   original[!is.na(i)] <- purrr::set_names(replacements[stats::na.omit(i)], NULL)
   original
 }
+# nocov end
