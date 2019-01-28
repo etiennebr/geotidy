@@ -60,8 +60,35 @@ test_that("If the geometry is already a `MULTI*`, it is returned unchanged.", {
 })
 # line --------------------------------------------------------------------
 
-# ST_MakeLine — Creates a Linestring from point, multipoint, or line geometries.
-# Synopsis
-# geometry ST_MakeLine(geometry set geoms);
-# geometry ST_MakeLine(geometry geom1, geometry geom2);
-# geometry ST_MakeLine(geometry[] geoms_array);
+test_that("A set of point is assembled as a line", {
+  x <- tibble::tibble(g = c("a", "a"), point = c(st_point(12, 21), st_point(21, 12))) %>%
+    group_by(g) %>%
+    summarise(line = st_makeline(point))
+  expect_is(x[["line"]], "sfc_LINESTRING")
+  expect_is(x[["line"]], "sfc")
+})
+
+test_that("A set of point is assembled as a line", {
+  x <- tibble::tibble(g = c("a", "a"), point = c(st_point(12, 21), st_point(21, 12))) %>%
+    summarise(line = st_makeline(point))
+  expect_is(x[["line"]], "sfc_LINESTRING")
+  expect_is(x[["line"]], "sfc")
+  expect_equal(nrow(x[["line"]][[1]]), 2)
+})
+
+test_that("Create line from multipoints", {
+  x <- tibble::tibble(g = c("a", "a"), point = c(st_point(12, 21), st_point(21, 12))) %>%
+    summarise(multi = st_multi(point)) %>%
+    mutate(line = st_makeline(multi))
+  expect_is(x[["line"]], "sfc_LINESTRING")
+  expect_is(x[["line"]], "sfc")
+  expect_equal(nrow(x[["line"]][[1]]), 2)
+})
+
+test_that("Create line from list of points (summarise)", {
+  x <- tibble::tibble(from = st_point(12, 21), to = st_point(21, 12)) %>%
+    mutate(line = st_makeline(from, to))
+  expect_is(x[["line"]], "sfc_LINESTRING")
+  expect_is(x[["line"]], "sfc")
+  expect_equal(nrow(x[["line"]][[1]]), 2)
+})
