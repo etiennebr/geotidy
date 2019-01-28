@@ -63,10 +63,49 @@ st_multi <- function(.geom, ...) UseMethod("st_multi")
 
 #' @export
 st_multi.sfc_POINT <- function(.geom, ...) {
-  sf::st_cast(sf::st_union(.geom), to = "MULTIPOINT")
+  cast_union(.geom, .cast = "MULTIPOINT")
 }
 
 #' @export
 st_multi.sfc_MULTIPOINT <- function(.geom, ...) {
   sf::st_union(.geom)
+}
+
+#' Creates a Linestring from point, multipoint, or line geometries.
+#'
+#' Lines can be created from point aggregates (using `summarise`) or from -- to
+#' to create a 2-vertex line.
+#' @param .geom A geometry or a set of geometries of class `sfc` to be converted
+#'   to line. The geometries are often aggregated using a [dplyr::group_by()]
+#'   followed by a[dplyr::summarise()].
+#' @param .to A point geometry to create pairwise lines.
+#' @param ... Unused.
+#' @return A line (`LINESTRING`) of class `sfc`.
+#' @export
+#'  @examples
+#'  library(dplyr)
+#'  library(tibble)
+#'
+#'  x <- tibble(g = c("a", "a"), point = c(st_point(12, 21), st_point(21, 12)))
+#'
+#'  x %>%
+#'   summarise(line = st_makeline(point))
+st_makeline <- function(.geom, .to, ...) UseMethod("st_makeline")
+
+#' @export
+st_makeline.sfc_POINT <- function(.geom, .to, ...) {
+  if(!missing(.to)) {
+    return(cast_union(.geom, .to, .cast = "LINESTRING", .by_feature = TRUE))
+  }
+  cast_union(.geom, .cast = "LINESTRING")
+}
+
+#' @export
+st_makeline.sfc_MULTIPOINT <- function(.geom, ...) {
+  # multipoints can be treated as points
+  st_makeline.sfc_POINT(.geom)
+}
+
+cast_union <- function(.x, .y, .cast, .by_feature = FALSE, ...) {
+  sf::st_cast(sf::st_union(.x, .y, .by_feature), to = .cast, ...)
 }
