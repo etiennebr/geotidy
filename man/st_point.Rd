@@ -36,7 +36,9 @@ df \%>\%
 \seealso{
 \link[sf:st_point]{sf::st_point}
 
-Other make: \code{\link{st_makeline}},
-  \code{\link{st_multi}}, \code{\link{st_numpoints}}
+Other make: 
+\code{\link{st_makeline}()},
+\code{\link{st_multi}()},
+\code{\link{st_numpoints}()}
 }
 \concept{make}

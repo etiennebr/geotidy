@@ -36,7 +36,6 @@ st_makepoint <- function(x, y) {
 }
 
 #' @rdname st_point
-#' @inheritParams st_makepoint
 #' @export
 st_point <- st_makepoint
 
@@ -185,4 +184,8 @@ st_coordinates <- function(x) {
   tibble::as_tibble(sf::st_coordinates(.x)) %>%
     purrr::set_names(~tolower(paste0(".", .x))) %>%
     dplyr::mutate(.path = dplyr::row_number())
+}
+
+cast_combine <- function(.x, .cast, ...) {
+  sf::st_cast(sf::st_combine(.x), to = .cast, ...)
 }

@@ -31,7 +31,9 @@ x \%>\%
  summarise(line = st_makeline(point))
 }
 \seealso{
-Other make: \code{\link{st_makepoint}},
-  \code{\link{st_multi}}, \code{\link{st_numpoints}}
+Other make: 
+\code{\link{st_makepoint}()},
+\code{\link{st_multi}()},
+\code{\link{st_numpoints}()}
 }
 \concept{make}
