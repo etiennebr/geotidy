@@ -22,3 +22,11 @@ A line (\code{LINESTRING}) of class \code{sfc}.
 Lines can be created from point aggregates (using \code{summarise}) or from -- to
 to create a 2-vertex line.
 }
+\examples{
+library(dplyr)
+library(tibble)
+
+x <- tibble(g = c("a", "a"), point = c(st_point(12, 21), st_point(21, 12)))
+x \%>\%
+ summarise(line = st_makeline(point))
+}
