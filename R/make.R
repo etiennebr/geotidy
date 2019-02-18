@@ -185,6 +185,34 @@ st_coordinates <- function(x) {
     dplyr::mutate(.path = dplyr::row_number())
 }
 
-cast_combine <- function(.x, .cast, ...) {
-  sf::st_cast(sf::st_combine(.x), to = .cast, ...)
+#' Dump vertex to a nested tibble of points
+#'
+#' Creates a geometry column containing a tibble where each vertex is a row.
+#' `st_dumppoints` is useful for expanding geometries. It is the reverse of a GROUP BY
+#' in that it creates new rows. For example it can be used to expand
+#' MULTIPOLYGONS into POLYGONS.
+#' @param x Geometry `sfc` column
+#' @return A list of tibbles.
+#' @seealso [sf::st_cast()], [st_coordinates()]
+#' @export
+st_dumppoints <- function(x) {
+  purrr::map(x, .st_dumppoints)
+}
+
+.st_dumppoints <- function(x) {
+  .y <- NULL
+  .x <- NULL
+  .st_coordinates(x) %>%
+    transmute(geom = st_point(.x, .y), path = row_number())
+}
+
+
+st_coordinates <- function(x) {
+  purrr::map(x, .st_coordinates)
+}
+
+.st_coordinates <- function(.x) {
+  tibble::as_tibble(sf::st_coordinates(.x)) %>%
+    purrr::set_names(~tolower(paste0(".", .x))) %>%
+    dplyr::mutate(.path = dplyr::row_number())
 }
