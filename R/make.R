@@ -128,7 +128,6 @@ st_makeline.numeric <- function(.geom, .to, ...) {
     if (length(x) == 1) x <- rep(x, length(y))
     if (length(y) == 1) y <- rep(y, length(x))
   }
-
   st_makeline(purrr::map2(x, y, st_point))
 }
 

@@ -90,6 +90,18 @@ test_that("A set of point is assembled as a line (no group)", {
 
 test_that("A pair of points create a line", {
   x <- tibble::tibble(
+    g = c("a", "a"),
+    origin      = c(st_point(12, 21), st_point(21, 12)),
+    destination = c(st_point(13, 22), st_point(22, 13))
+  ) %>%
+    mutate(line = st_makeline(origin, destination))
+  expect_is(x[["line"]], "sfc_LINESTRING")
+  expect_is(x[["line"]], "sfc")
+  expect_equal(nrow(x[["line"]][[1]]), 2)
+})
+
+test_that("A pair of points create a line", {
+  x <- tibble::tibble(
     origin      = c(st_point(12, 21), st_point(13, 21), st_point(14, 21)),
     destination = c(st_point(13, 22), st_point(14, 22), st_point(15, 22))
   ) %>%
