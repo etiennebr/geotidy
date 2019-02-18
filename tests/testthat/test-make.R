@@ -1,4 +1,4 @@
-context("test-test-exports")
+context("test-exports")
 
 
 # point -------------------------------------------------------------------
@@ -61,16 +61,35 @@ test_that("If the geometry is already a `MULTI*`, it is returned unchanged.", {
 # line --------------------------------------------------------------------
 
 test_that("A set of point is assembled as a line", {
-  x <- tibble::tibble(g = c("a", "a"), point = c(st_point(12, 21), st_point(21, 12))) %>%
+  x <- tibble::tibble(
+    g = c("a", "a"),
+    point = c(st_point(12, 21), st_point(21, 12))
+    ) %>%
     group_by(g) %>%
     summarise(line = st_makeline(point))
   expect_is(x[["line"]], "sfc_LINESTRING")
   expect_is(x[["line"]], "sfc")
 })
 
-test_that("A set of point is assembled as a line", {
-  x <- tibble::tibble(g = c("a", "a"), point = c(st_point(12, 21), st_point(21, 12))) %>%
+test_that("A set of point is assembled as a line (no group)", {
+  x <- tibble::tibble(
+    g = c("a", "a"),
+    point = c(st_point(12, 21), st_point(21, 12))
+    ) %>%
     summarise(line = st_makeline(point))
+  # TODO: st_union seems to duplicate lines
+  expect_is(x[["line"]], "sfc_LINESTRING")
+  expect_is(x[["line"]], "sfc")
+  expect_equal(nrow(x[["line"]][[1]]), 2)
+})
+
+test_that("A pair of points create a line", {
+  x <- tibble::tibble(
+    g = c("a", "a"),
+    origin      = c(st_point(12, 21), st_point(21, 12)),
+    destination = c(st_point(13, 22), st_point(22, 13))
+  ) %>%
+    mutate(line = st_makeline(origin, destination))
   expect_is(x[["line"]], "sfc_LINESTRING")
   expect_is(x[["line"]], "sfc")
   expect_equal(nrow(x[["line"]][[1]]), 2)
@@ -104,7 +123,6 @@ test_that("Create line from list of coordinates", {
   expect_is(x[["linestring"]], "sfc")
   expect_npoints(x[["linestring"]], 3)
 })
-
 
 # dump --------------------------------------------------------------------
 

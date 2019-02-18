@@ -12,8 +12,9 @@ st_read(...)
   \item{quiet}{logical; suppress info on name, driver, size and spatial
 reference, or signaling no or multiple layers}
   \item{stringsAsFactors}{logical; logical: should character vectors be
-converted to factors?  The `factory-fresh' default is \code{TRUE}, but this
-can be changed by setting \code{options(stringsAsFactors = FALSE)}.}
+converted to factors?  The `factory-fresh' default is \code{TRUE} for 
+\code{st_read} and \code{FALSE} for \code{read_sf}, but this can be changed 
+globally by e.g. the R command \code{options(stringsAsFactors = FALSE)}.}
   \item{as_tibble}{logical; should the returned table be of class tibble or data.frame?}
 }}
 }
