@@ -1,4 +1,4 @@
-context("test-test-exports")
+context("test-exports")
 
 
 # point -------------------------------------------------------------------
@@ -61,16 +61,35 @@ test_that("If the geometry is already a `MULTI*`, it is returned unchanged.", {
 # line --------------------------------------------------------------------
 
 test_that("A set of point is assembled as a line", {
-  x <- tibble::tibble(g = c("a", "a"), point = c(st_point(12, 21), st_point(21, 12))) %>%
+  x <- tibble::tibble(
+    g = c("a", "a"),
+    point = c(st_point(12, 21), st_point(21, 12))
+    ) %>%
     group_by(g) %>%
     summarise(line = st_makeline(point))
   expect_is(x[["line"]], "sfc_LINESTRING")
   expect_is(x[["line"]], "sfc")
 })
 
-test_that("A set of point is assembled as a line", {
-  x <- tibble::tibble(g = c("a", "a"), point = c(st_point(12, 21), st_point(21, 12))) %>%
+test_that("A set of point is assembled as a line (no group)", {
+  x <- tibble::tibble(
+    g = c("a", "a"),
+    point = c(st_point(12, 21), st_point(21, 12))
+    ) %>%
     summarise(line = st_makeline(point))
+  # TODO: st_union seems to duplicate lines
+  expect_is(x[["line"]], "sfc_LINESTRING")
+  expect_is(x[["line"]], "sfc")
+  expect_equal(nrow(x[["line"]][[1]]), 2)
+})
+
+test_that("A pair of points create a line", {
+  x <- tibble::tibble(
+    g = c("a", "a"),
+    origin      = c(st_point(12, 21), st_point(21, 12)),
+    destination = c(st_point(13, 22), st_point(22, 13))
+  ) %>%
+    mutate(line = st_makeline(origin, destination))
   expect_is(x[["line"]], "sfc_LINESTRING")
   expect_is(x[["line"]], "sfc")
   expect_equal(nrow(x[["line"]][[1]]), 2)
@@ -86,9 +105,23 @@ test_that("Create line from multipoints", {
 })
 
 test_that("Create line from list of points (summarise)", {
-  x <- tibble::tibble(from = st_point(12, 21), to = st_point(21, 12)) %>%
-    mutate(line = st_makeline(from, to))
+  x <- tibble::tibble(points = c(st_point(12, 21), st_point(21, 12))) %>%
+    summarise(line = st_makeline(points))
   expect_is(x[["line"]], "sfc_LINESTRING")
   expect_is(x[["line"]], "sfc")
   expect_equal(nrow(x[["line"]][[1]]), 2)
+
+  list_of_points <- map2(sample(1:10), sample(1:10), st_point)
+  st_makeline(list_of_points)
+})
+
+test_that("Create line from list of coordinates", {
+  x <- tibble(tuple = list(c(1,2), c(3, 4), c(5, 6))) %>%
+    mutate(pts = st_makepoint(tuple)) %>%
+    summarise(linestring = st_makeline(pts))
+  expect_is(x[["linestring"]], "sfc_LINESTRING")
+  expect_is(x[["linestring"]], "sfc")
+  expect_npoints(x[["linestring"]], 3)
+})
+
 })
