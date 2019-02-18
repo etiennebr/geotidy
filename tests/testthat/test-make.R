@@ -124,4 +124,30 @@ test_that("Create line from list of coordinates", {
   expect_npoints(x[["linestring"]], 3)
 })
 
+# dump --------------------------------------------------------------------
+
+test_that("st_dumppoints returns a nested tibble", {
+  x <- tibble(tuple = list(c(1,2), c(3, 4), c(5, 6))) %>%
+    mutate(pts = st_makepoint(tuple))
+  y <- x %>%
+    summarise(linestring = st_makeline(pts)) %>%
+    mutate(pts = st_dumppoints(linestring))
+  expect_is(y$pts, "list")
+  expect_is(y$pts[[1]], "tbl_df")
+  expect_equal(y$pts[[1]]$geom, x$pts)
+  expect_equal(y$pts[[1]]$path, seq_len(nrow(x)))
+})
+
+test_that("st_dumppoints returns a nested tibble", {
+  x <- tibble(tuple = list(c(1,2), c(3, 4), c(5, 6))) %>%
+    add_row(tuple = list(c(7, 8))) %>%
+    group_by(g = c(1, 1, 2, 2)) %>%
+    mutate(pts = st_makepoint(tuple))
+  y <- x %>%
+    summarise(linestring = st_makeline(pts)) %>%
+    mutate(pts = st_dumppoints(linestring))
+  expect_is(y$pts, "list")
+  expect_is(y$pts[[1]], "tbl_df")
+  expect_equal(y$pts[[1]]$geom, x$pts[1:2])
+  expect_equal(y$pts[[1]]$path, 1:2)
 })
