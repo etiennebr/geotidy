@@ -82,14 +82,14 @@ st_multi.sfc_MULTIPOINT <- function(.geom, ...) {
 #' @param ... Unused.
 #' @return A line (`LINESTRING`) of class `sfc`.
 #' @export
-#'  @examples
-#'  library(dplyr)
-#'  library(tibble)
+#' @examples
+#' library(dplyr)
+#' library(tibble)
 #'
-#'  x <- tibble(g = c("a", "a"), point = c(st_point(12, 21), st_point(21, 12)))
-#'
-#'  x %>%
-#'   summarise(line = st_makeline(point))
+#' x <- tibble(g = c("a", "a"), point = c(st_point(12, 21), st_point(21, 12)))
+#' x %>%
+#'  summarise(line = st_makeline(point))
+#' @export
 st_makeline <- function(.geom, .to, ...) UseMethod("st_makeline")
 
 #' @export
@@ -106,6 +106,32 @@ st_makeline.sfc_MULTIPOINT <- function(.geom, ...) {
   st_makeline.sfc_POINT(.geom)
 }
 
+#' @export
+st_makeline.list <- function(.geom, ...) {
+  # list of points can be treated as points
+  .geom <- sf::st_sfc(unlist(.geom, recursive = FALSE, use.names = FALSE))
+  st_makeline(.geom, ...)
+}
+
+st_makeline.numeric <- function(.x, .y, ...) {
+  if (missing(.y)) {
+    stop("You must provide at least a second coordinate `.y`.", call. = FALSE)
+  }
+  if (!is.numeric(.y)) {
+    stop("`.y` must be numeric too", call. = FALSE)
+  }
+  if (length(.x) != length(.y)) {
+    if(length(.x) != 1 && length(.y != 1)) {
+      stop("`.x` and `.y` must be of the same length or length 1 to be recycled.", call. = FALSE)
+    }
+  }
+}
+
 cast_union <- function(.x, .y, .cast, .by_feature = FALSE, ...) {
-  sf::st_cast(sf::st_union(.x, .y, .by_feature), to = .cast, ...)
+  sf::st_cast(st_union(.x, .y, .by_feature), to = .cast, ...)
+}
+
+cast_combine <- function(.x, .cast, ...) {
+  sf::st_cast(sf::st_combine(.x), to = .cast, ...)
+}
 }
