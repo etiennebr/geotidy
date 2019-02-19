@@ -40,7 +40,7 @@ st_union <- function(x, y, by_feature = TRUE) {
       uni <- st_union(x, y, by_feature = TRUE)
       return(st_union(uni, by_feature = FALSE))
     }
-    return(sf::st_sfc(purrr::map2(x, y, ~sf::st_union(.x, .y, by_feature = by_feature))))
+    return(map2_sfc(x, y, ~sf::st_union(.x, .y, by_feature = by_feature)))
   }
   sf::st_sfc(sf::st_union(x, by_feature = by_feature))
 }
