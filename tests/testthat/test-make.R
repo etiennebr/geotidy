@@ -124,6 +124,11 @@ test_that("Create line from list of coordinates", {
   expect_npoints(x[["linestring"]], 3)
 })
 
+test_that("Create line from numeric", {
+  expect_error(st_makeline(1:3), "second coordinate")
+  expect_error(st_makeline(1:3, 1:2), "same length")
+  expect_identical(st_makeline(1:2, 1), st_makeline(list(st_point(1, 1), st_point(2, 1))))
+})
 # dump --------------------------------------------------------------------
 
 test_that("st_dumppoints returns a nested tibble", {
