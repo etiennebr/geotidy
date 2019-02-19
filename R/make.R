@@ -121,10 +121,13 @@ st_makeline.numeric <- function(.x, .y, ...) {
     stop("`.y` must be numeric too", call. = FALSE)
   }
   if (length(.x) != length(.y)) {
-    if(length(.x) != 1 && length(.y != 1)) {
+    if (length(.x) != 1 && length(.y) != 1) {
       stop("`.x` and `.y` must be of the same length or length 1 to be recycled.", call. = FALSE)
     }
+    if (length(.x) == 1) .x <- rep(.x, length(.y))
+    if (length(.y) == 1) .y <- rep(.y, length(.x))
   }
+  st_makeline(purrr::map2(.x, .y, st_point))
 }
 
 cast_union <- function(.x, .y, .cast, .by_feature = FALSE, ...) {
