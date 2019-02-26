@@ -4,8 +4,10 @@ context("test-exports")
 # point -------------------------------------------------------------------
 
 test_that("st_point returns POINT", {
-  x <- st_point(list(c(1 ,2)))
+  x <- st_point(list(c(1 ,2)), crs = 4326)
   expect_is(x, "sfc_POINT")
+  expect_crs(x, 4326)
+  expect_npoints(x, 1)
 })
 
 test_that("st_point works on columns", {
@@ -105,23 +107,41 @@ test_that("Create line from multipoints", {
 })
 
 test_that("Create line from list of points (summarise)", {
-  x <- tibble::tibble(points = c(st_point(12, 21), st_point(21, 12))) %>%
+  x <- tibble::tibble(points = c(st_point(12, 21, crs = 4326), st_point(21, 12, crs = 4326))) %>%
     summarise(line = st_makeline(points))
   expect_is(x[["line"]], "sfc_LINESTRING")
   expect_is(x[["line"]], "sfc")
-  expect_equal(nrow(x[["line"]][[1]]), 2)
+  expect_crs(x[["line"]], 4326)
+  expect_npoints(x[["line"]], 2)
 
   list_of_points <- map2(sample(1:10), sample(1:10), st_point)
-  st_makeline(list_of_points)
+  ln <- st_makeline(list_of_points)
+  expect_is(ln, "sfc_LINESTRING")
+  expect_is(ln, "sfc")
+  expect_crs(ln, sf::NA_crs_)
 })
 
 test_that("Create line from list of coordinates", {
   x <- tibble(tuple = list(c(1,2), c(3, 4), c(5, 6))) %>%
-    mutate(pts = st_makepoint(tuple)) %>%
+    mutate(pts = st_makepoint(tuple, crs = 4326)) %>%
     summarise(linestring = st_makeline(pts))
   expect_is(x[["linestring"]], "sfc_LINESTRING")
   expect_is(x[["linestring"]], "sfc")
+  expect_crs(x[["linestring"]], 4326)
   expect_npoints(x[["linestring"]], 3)
+})
+
+test_that("Create line from list of coordinates", {
+  x <- tibble(x = 1:3, y = 1:3)
+  y <- summarise(x, linestring = st_makeline(x, y, crs = 4326))
+
+  expect_is(y[["linestring"]], "sfc_LINESTRING")
+  expect_is(y[["linestring"]], "sfc")
+  expect_crs(y[["linestring"]], 4326)
+  expect_npoints(y[["linestring"]], 3)
+  expect_error(summarise(x, linestring = st_makeline(x)), "second coordinate")
+  expect_error(summarise(x, linestring = st_makeline(x, "a")), "numeric")
+  expect_error(summarise(x, linestring = st_makeline(1:3, 1:2)), "same length")
 })
 
 # dump --------------------------------------------------------------------

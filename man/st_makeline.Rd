@@ -4,7 +4,7 @@
 \alias{st_makeline}
 \title{Creates a Linestring from point, multipoint, or line geometries.}
 \usage{
-st_makeline(.geom, .to, ...)
+st_makeline(.geom, .to, crs = sf::NA_crs_, ...)
 }
 \arguments{
 \item{.geom}{A geometry or a set of geometries of class \code{sfc} to be converted
@@ -12,6 +12,8 @@ to line. The geometries are often aggregated using a \code{\link[dplyr:group_by]
 followed by a\code{\link[dplyr:summarise]{dplyr::summarise()}}.}
 
 \item{.to}{A point geometry to create pairwise lines.}
+
+\item{crs}{A Coordinate Reference System. See \code{\link[sf:st_crs]{sf::st_crs()}} for details on how to specify a CRS.}
 
 \item{...}{Unused.}
 }

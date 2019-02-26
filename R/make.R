@@ -79,6 +79,7 @@ st_multi.sfc_MULTIPOINT <- function(.geom, ...) {
 #'   to line. The geometries are often aggregated using a [dplyr::group_by()]
 #'   followed by a[dplyr::summarise()].
 #' @param .to A point geometry to create pairwise lines.
+#' @param crs A Coordinate Reference System. See [sf::st_crs()] for details on how to specify a CRS.
 #' @param ... Unused.
 #' @return A line (`LINESTRING`) of class `sfc`.
 #' @export
@@ -90,7 +91,7 @@ st_multi.sfc_MULTIPOINT <- function(.geom, ...) {
 #' x %>%
 #'  summarise(line = st_makeline(point))
 #' @export
-st_makeline <- function(.geom, .to, ...) UseMethod("st_makeline")
+st_makeline <- function(.geom, .to, crs = sf::NA_crs_, ...) UseMethod("st_makeline")
 
 #' @export
 st_makeline.sfc_POINT <- function(.geom, .to, ...) {
@@ -101,19 +102,19 @@ st_makeline.sfc_POINT <- function(.geom, .to, ...) {
 }
 
 #' @export
-st_makeline.sfc_MULTIPOINT <- function(.geom, ...) {
+st_makeline.sfc_MULTIPOINT <- function(.geom, crs = unique_crs(.geom), ...) {
   # multipoints can be treated as points
-  st_makeline.sfc_POINT(.geom)
+  st_makeline.sfc_POINT(.geom, crs = crs)
 }
 
 #' @export
-st_makeline.list <- function(.geom, ...) {
+st_makeline.list <- function(.geom, crs = unique_crs(.geom), ...) {
   # list of points can be treated as points
-  .geom <- sf::st_sfc(unlist(.geom, recursive = FALSE, use.names = FALSE))
+  .geom <- sf::st_sfc(unlist(.geom, recursive = FALSE, use.names = FALSE), crs = crs)
   st_makeline(.geom, ...)
 }
 
-st_makeline.numeric <- function(.x, .y, ...) {
+st_makeline.numeric <- function(.x, .y, crs = sf::NA_crs_, ...) {
   if (missing(.y)) {
     stop("You must provide at least a second coordinate `.y`.", call. = FALSE)
   }
@@ -125,6 +126,8 @@ st_makeline.numeric <- function(.x, .y, ...) {
       stop("`.x` and `.y` must be of the same length or length 1 to be recycled.", call. = FALSE)
     }
   }
+  w <- map2(.x, .y, st_point, crs = crs)
+  st_makeline(w)
 }
 
 cast_union <- function(.x, .y, .cast, .by_feature = FALSE, ...) {
