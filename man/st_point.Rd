@@ -5,25 +5,25 @@
 \alias{st_point}
 \title{Create points}
 \usage{
-st_makepoint(.x, .y, crs = sf::NA_crs_)
+st_makepoint(x, y, crs = sf::NA_crs_)
 
-st_point(.x, .y, crs = sf::NA_crs_)
+st_point(x, y, crs = sf::NA_crs_)
 }
 \arguments{
-\item{.x}{Numeric vector of x coordinates (e.g. longitude) or a list of pairs of coordinates. In the latter than case `.y`` can be missing.}
+\item{x}{Numeric vector of x coordinates (e.g. longitude) or a list of pairs of coordinates. In the latter case \code{y} can be missing.}
 
-\item{.y}{Numeric vector of y coordinates (e.g. latitude).}
+\item{y}{Numeric vector of y coordinates (e.g. latitude).}
 
 \item{crs}{Integer or character that identifies the coordinate reference system (default is \code{NA}). This can also be set by using \code{\link[=st_crs]{st_crs()}} (or to find out more about \code{crs}). Coordinate reference system (\code{crs}) is the equivalent of POSTGIS's spatial reference identifier (\code{srid}).}
 }
 \value{
-List column of points with the same length than \code{.x`` and }.y`.
+List column of points with the same length than \code{x} and \code{y}.
 }
 \description{
 Create points from coordinates. \code{st_point} is simply a wrapper around \code{st_makepoint}.
 }
 \details{
-\code{.x} amd \code{.y} must be of the same length. If one of the coordiantes are
+\code{x} amd \code{y} must be of the same length. If one of the coordiantes are
 missing, it creates and empty point geometry.
 }
 \examples{
