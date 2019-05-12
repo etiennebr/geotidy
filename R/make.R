@@ -82,7 +82,7 @@ st_multi.sfc_MULTIPOINT <- function(.geom, ...) {
 #' @param ... Unused.
 #' @return A line (`LINESTRING`) of class `sfc`.
 #' @export
-#'  @examples
+#' @examples
 #'  library(dplyr)
 #'  library(tibble)
 #'
