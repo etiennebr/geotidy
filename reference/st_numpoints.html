@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Function reference • geotidy</title>
+<title>Count the number of points in a geometry — st_numpoints • geotidy</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,7 +30,10 @@
 
 
 
-<meta property="og:title" content="Function reference" />
+<meta property="og:title" content="Count the number of points in a geometry — st_numpoints" />
+
+<meta property="og:description" content="Count the number of points in a geometry" />
+<meta name="twitter:card" content="summary" />
 
 
 
@@ -47,7 +50,7 @@
   </head>
 
   <body>
-    <div class="container template-reference-index">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -89,84 +92,59 @@
       </header>
 
 <div class="row">
-  <div class="contents col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Reference</h1>
+    <h1>Count the number of points in a geometry</h1>
+    
+    <div class="hidden name"><code>st_numpoints.Rd</code></div>
     </div>
 
-    <table class="ref-index">
+    <div class="ref-description">
+    
+    <p>Count the number of points in a geometry</p>
+    
+    </div>
 
-    <colgroup>
-      
-      <col class="alias" />
-      <col class="title" />
-    </colgroup>
+    <pre class="usage"><span class='fu'>st_numpoints</span>(<span class='no'>.geom</span>)
 
-    <tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-all-functions" class="hasAnchor"><a href="#section-all-functions" class="anchor"></a>All functions</h2>
-          <p class="section-desc"></p>
-        </th>
-      </tr>
-      <tr>
-        
-        <td>
-          <p><code><a href="map_sfc.html">map_sfc()</a></code> <code><a href="map_sfc.html">map2_sfc()</a></code> </p>
-        </td>
-        <td><p>Apply a function to each element of a vector and bind to an sfc object</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="st_dumppoints.html">st_dumppoints()</a></code> </p>
-        </td>
-        <td><p>Dump vertex to a nested tibble of points</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="st_makeline.html">st_makeline()</a></code> </p>
-        </td>
-        <td><p>Creates a Linestring from point, multipoint, or line geometries.</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="st_multi.html">st_multi()</a></code> </p>
-        </td>
-        <td><p>Aggregate geometries</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="st_numpoints.html">st_numpoints()</a></code> <code><a href="st_numpoints.html">st_npoints()</a></code> </p>
-        </td>
-        <td><p>Count the number of points in a geometry</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="st_point.html">st_makepoint()</a></code> <code><a href="st_point.html">st_point()</a></code> </p>
-        </td>
-        <td><p>Create points</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="st_read.html">st_read()</a></code> </p>
-        </td>
-        <td><p>Read</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="st_union.html">st_union()</a></code> </p>
-        </td>
-        <td><p>Union geometries</p></td>
-      </tr>
-    </tbody>
+<span class='fu'>st_npoints</span>(<span class='no'>.geom</span>)</pre>
+    
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>.geom</th>
+      <td><p>A geometry object.</p></td>
+    </tr>
     </table>
-  </div>
+    
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
+    <div class='dont-index'><p>Other make: <code><a href='st_point.html'>st_makepoint</a></code>,
+  <code><a href='st_multi.html'>st_multi</a></code></p></div>
+    
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>tibble</span>)
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>dplyr</span>)
+
+<span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>2</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='fl'>3</span>:<span class='fl'>4</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='fu'><a href='st_point.html'>st_makepoint</a></span>(<span class='no'>x</span>, <span class='no'>y</span>), <span class='kw'>n</span> <span class='kw'>=</span> <span class='fu'>st_npoints</span>(<span class='no'>geom</span>)) <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarise</a></span>(<span class='kw'>line</span> <span class='kw'>=</span> <span class='fu'><a href='st_makeline.html'>st_makeline</a></span>(<span class='no'>geom</span>), <span class='kw'>n</span> <span class='kw'>=</span> <span class='fu'>st_numpoints</span>(<span class='no'>line</span>))</div><div class='output co'>#&gt; # A tibble: 1 x 2
+#&gt;           line     n
+#&gt;   &lt;LINESTRING&gt; &lt;int&gt;
+#&gt; 1   (1 3, 2 4)     2</div></pre>
+  </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#section-all-functions">All functions</a></li>
+      <li><a href="#arguments">Arguments</a></li>
+      
+      <li><a href="#see-also">See also</a></li>
+      
+      <li><a href="#examples">Examples</a></li>
     </ul>
+
   </div>
 </div>
 

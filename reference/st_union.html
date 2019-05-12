@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Creates a Linestring from point, multipoint, or line geometries. — st_makeline • geotidy</title>
+<title>Union geometries — st_union • geotidy</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,10 +30,13 @@
 
 
 
-<meta property="og:title" content="Creates a Linestring from point, multipoint, or line geometries. — st_makeline" />
+<meta property="og:title" content="Union geometries — st_union" />
 
-<meta property="og:description" content="Lines can be created from point aggregates (using summarise) or from -- to
-to create a 2-vertex line." />
+<meta property="og:description" content="Union geometries to create MULTI* geometries in the case of different
+geometries. If geometries are identical, the union returns a single geometry.
+If you need to preserve all geometries, use sf::st_combine(). This function
+behaves differently than sf because it strictly returns 1 or length(x)
+geometries." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -95,67 +98,74 @@ to create a 2-vertex line." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Creates a Linestring from point, multipoint, or line geometries.</h1>
+    <h1>Union geometries</h1>
     
-    <div class="hidden name"><code>st_makeline.Rd</code></div>
+    <div class="hidden name"><code>st_union.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Lines can be created from point aggregates (using <code>summarise</code>) or from -- to
-to create a 2-vertex line.</p>
+    <p>Union geometries to create MULTI* geometries in the case of different
+geometries. If geometries are identical, the union returns a single geometry.
+If you need to preserve all geometries, use <code><a href='https://www.rdocumentation.org/packages/sf/topics/geos_combine'>sf::st_combine()</a></code>. This function
+behaves differently than <code>sf</code> because it strictly returns 1 or <code><a href='https://www.rdocumentation.org/packages/base/topics/length'>length(x)</a></code>
+geometries.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>st_makeline</span>(<span class='no'>.geom</span>, <span class='no'>.to</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>st_union</span>(<span class='no'>x</span>, <span class='no'>y</span>, <span class='kw'>by_feature</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>.geom</th>
-      <td><p>A geometry or a set of geometries of class <code>sfc</code> to be converted
-to line. The geometries are often aggregated using a <code><a href='https://dplyr.tidyverse.org/reference/group_by.html'>dplyr::group_by()</a></code>
-followed by a<code><a href='https://dplyr.tidyverse.org/reference/summarise.html'>dplyr::summarise()</a></code>.</p></td>
+      <th>x</th>
+      <td><p>A geometry or a set of geometries of class <code>sfc</code> to be unioned.</p></td>
     </tr>
     <tr>
-      <th>.to</th>
-      <td><p>A point geometry to create pairwise lines.</p></td>
+      <th>y</th>
+      <td><p>(optional). A geometry or a set of geometries of class <code>sfc</code>.</p></td>
     </tr>
     <tr>
-      <th>...</th>
-      <td><p>Unused.</p></td>
+      <th>by_feature</th>
+      <td><p>default is <code>TRUE</code>. Union each element of <code>x</code> with
+corresponding <code>y</code> element. If <code>FALSE</code>, all the features are first unioned
+row-wise, then all unioned together.</p></td>
     </tr>
     </table>
     
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <p>A line (<code>LINESTRING</code>) of class <code>sfc</code>.</p>
+    <div class='dont-index'><p><code><a href='https://www.rdocumentation.org/packages/sf/topics/geos_combine'>sf::st_union()</a></code>, <code><a href='https://www.rdocumentation.org/packages/sf/topics/geos_combine'>sf::st_combine()</a></code></p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>dplyr</span>)</div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>Attaching package: ‘dplyr’</span></div><div class='output co'>#&gt; <span class='message'>The following object is masked from ‘package:testthat’:</span>
-#&gt; <span class='message'></span>
-#&gt; <span class='message'>    matches</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from ‘package:stats’:</span>
-#&gt; <span class='message'></span>
-#&gt; <span class='message'>    filter, lag</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from ‘package:base’:</span>
-#&gt; <span class='message'></span>
-#&gt; <span class='message'>    intersect, setdiff, setequal, union</span></div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>tibble</span>)
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>tibble</span>)
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>dplyr</span>)
 
-<span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span>(<span class='kw'>g</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"a"</span>, <span class='st'>"a"</span>), <span class='kw'>point</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fu'><a href='st_point.html'>st_point</a></span>(<span class='fl'>12</span>, <span class='fl'>21</span>), <span class='fu'><a href='st_point.html'>st_point</a></span>(<span class='fl'>21</span>, <span class='fl'>12</span>)))
-<span class='no'>x</span> <span class='kw'>%&gt;%</span>
- <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarise</a></span>(<span class='kw'>line</span> <span class='kw'>=</span> <span class='fu'>st_makeline</span>(<span class='no'>point</span>))</div><div class='output co'>#&gt; # A tibble: 1 x 1
-#&gt;             line
-#&gt;     &lt;LINESTRING&gt;
-#&gt; 1 (12 21, 21 12)</div></pre>
+<span class='no'>geom</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span>(
+  <span class='kw'>x</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>3</span>,
+  <span class='kw'>y</span> <span class='kw'>=</span> <span class='fl'>4</span>:<span class='fl'>6</span>,
+  <span class='kw'>origin</span> <span class='kw'>=</span> <span class='fu'><a href='st_point.html'>st_point</a></span>(<span class='no'>x</span>, <span class='no'>y</span>),
+  <span class='kw'>destin</span> <span class='kw'>=</span> <span class='fu'><a href='st_point.html'>st_point</a></span>(<span class='no'>x</span> + <span class='fl'>1</span>, <span class='no'>y</span> + <span class='fl'>1</span>)
+)
+<span class='no'>geom</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span>(<span class='no'>geom</span>, <span class='kw'>union</span> <span class='kw'>=</span> <span class='fu'>st_union</span>(<span class='no'>origin</span>, <span class='no'>destin</span>))
+<span class='no'>geom</span></div><div class='output co'>#&gt; # A tibble: 3 x 5
+#&gt;       x     y  origin  destin        union
+#&gt;   &lt;int&gt; &lt;int&gt; &lt;POINT&gt; &lt;POINT&gt; &lt;MULTIPOINT&gt;
+#&gt; 1     1     4   (1 4)   (2 5)   (1 4, 2 5)
+#&gt; 2     2     5   (2 5)   (3 6)   (2 5, 3 6)
+#&gt; 3     3     6   (3 6)   (4 7)   (3 6, 4 7)</div><div class='input'><span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarise</a></span>(<span class='no'>geom</span>, <span class='kw'>union</span> <span class='kw'>=</span> <span class='fu'>st_union</span>(<span class='no'>origin</span>, <span class='no'>destin</span>, <span class='kw'>by_feature</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>))</div><div class='output co'>#&gt; # A tibble: 1 x 1
+#&gt;                  union
+#&gt;           &lt;MULTIPOINT&gt;
+#&gt; 1 (1 4, 2 5, 3 6, 4 7)</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       
-      <li><a href="#value">Value</a></li>
+      <li><a href="#see-also">See also</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>

@@ -105,19 +105,19 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>st_makepoint</span>(<span class='no'>.x</span>, <span class='no'>.y</span>, <span class='kw'>crs</span> <span class='kw'>=</span> <span class='kw pkg'>sf</span><span class='kw ns'>::</span><span class='no'><a href='https://www.rdocumentation.org/packages/sf/topics/st_crs'>NA_crs_</a></span>)
+    <pre class="usage"><span class='fu'>st_makepoint</span>(<span class='no'>x</span>, <span class='no'>y</span>, <span class='kw'>crs</span> <span class='kw'>=</span> <span class='kw pkg'>sf</span><span class='kw ns'>::</span><span class='no'><a href='https://www.rdocumentation.org/packages/sf/topics/st_crs'>NA_crs_</a></span>)
 
-<span class='fu'>st_point</span>(<span class='no'>.x</span>, <span class='no'>.y</span>, <span class='kw'>crs</span> <span class='kw'>=</span> <span class='kw pkg'>sf</span><span class='kw ns'>::</span><span class='no'><a href='https://www.rdocumentation.org/packages/sf/topics/st_crs'>NA_crs_</a></span>)</pre>
+<span class='fu'>st_point</span>(<span class='no'>x</span>, <span class='no'>y</span>, <span class='kw'>crs</span> <span class='kw'>=</span> <span class='kw pkg'>sf</span><span class='kw ns'>::</span><span class='no'><a href='https://www.rdocumentation.org/packages/sf/topics/st_crs'>NA_crs_</a></span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>.x</th>
-      <td><p>Numeric vector of x coordinates (e.g. longitude) or a list of pairs of coordinates. In the latter than case `.y`` can be missing.</p></td>
+      <th>x</th>
+      <td><p>Numeric vector of x coordinates (e.g. longitude) or a list of pairs of coordinates. In the latter case <code>y</code> can be missing.</p></td>
     </tr>
     <tr>
-      <th>.y</th>
+      <th>y</th>
       <td><p>Numeric vector of y coordinates (e.g. latitude).</p></td>
     </tr>
     <tr>
@@ -128,17 +128,18 @@
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>List column of points with the same length than <code>.x`` and </code>.y`.</p>
+    <p>List column of points with the same length than <code>x</code> and <code>y</code>.</p>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p><code>.x</code> amd <code>.y</code> must be of the same length. If one of the coordiantes are
+    <p><code>x</code> amd <code>y</code> must be of the same length. If one of the coordiantes are
 missing, it creates and empty point geometry.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><a href='https://www.rdocumentation.org/packages/sf/topics/st'>sf::st_point</a></p>
-<p>Other make: <code><a href='st_multi.html'>st_multi</a></code></p></div>
+<p>Other make: <code><a href='st_multi.html'>st_multi</a></code>,
+  <code><a href='st_numpoints.html'>st_numpoints</a></code></p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>

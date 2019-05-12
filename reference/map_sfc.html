@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Creates a Linestring from point, multipoint, or line geometries. — st_makeline • geotidy</title>
+<title>Apply a function to each element of a vector and bind to an sfc object — map_sfc • geotidy</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,10 +30,9 @@
 
 
 
-<meta property="og:title" content="Creates a Linestring from point, multipoint, or line geometries. — st_makeline" />
+<meta property="og:title" content="Apply a function to each element of a vector and bind to an sfc object — map_sfc" />
 
-<meta property="og:description" content="Lines can be created from point aggregates (using summarise) or from -- to
-to create a 2-vertex line." />
+<meta property="og:description" content="Apply a function to each element of a vector and bind to an sfc object" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -95,70 +94,88 @@ to create a 2-vertex line." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Creates a Linestring from point, multipoint, or line geometries.</h1>
+    <h1>Apply a function to each element of a vector and bind to an sfc object</h1>
     
-    <div class="hidden name"><code>st_makeline.Rd</code></div>
+    <div class="hidden name"><code>map_sfc.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Lines can be created from point aggregates (using <code>summarise</code>) or from -- to
-to create a 2-vertex line.</p>
+    <p>Apply a function to each element of a vector and bind to an sfc object</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>st_makeline</span>(<span class='no'>.geom</span>, <span class='no'>.to</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>map_sfc</span>(<span class='no'>.x</span>, <span class='no'>.f</span>, <span class='no'>...</span>, <span class='kw'>.crs</span> <span class='kw'>=</span> <span class='no'>NA_crs_</span>, <span class='kw'>.precision</span> <span class='kw'>=</span> <span class='fl'>0</span>,
+  <span class='kw'>.check_ring_dir</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+
+<span class='fu'>map2_sfc</span>(<span class='no'>.x</span>, <span class='no'>.y</span>, <span class='no'>.f</span>, <span class='no'>...</span>, <span class='kw'>.crs</span> <span class='kw'>=</span> <span class='no'>NA_crs_</span>, <span class='kw'>.precision</span> <span class='kw'>=</span> <span class='fl'>0</span>,
+  <span class='kw'>.check_ring_dir</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>.geom</th>
-      <td><p>A geometry or a set of geometries of class <code>sfc</code> to be converted
-to line. The geometries are often aggregated using a <code><a href='https://dplyr.tidyverse.org/reference/group_by.html'>dplyr::group_by()</a></code>
-followed by a<code><a href='https://dplyr.tidyverse.org/reference/summarise.html'>dplyr::summarise()</a></code>.</p></td>
+      <th>.x</th>
+      <td><p>Vectors of the same length. A vector of length 1 will
+be recycled.</p></td>
     </tr>
     <tr>
-      <th>.to</th>
-      <td><p>A point geometry to create pairwise lines.</p></td>
+      <th>.f</th>
+      <td><p>A function, formula, or vector (not necessarily atomic).</p>
+<p>If a <strong>function</strong>, it is used as is.</p>
+<p>If a <strong>formula</strong>, e.g. <code>~ .x + 2</code>, it is converted to a function. There
+are three ways to refer to the arguments:</p><ul>
+<li><p>For a single argument function, use <code>.</code></p></li>
+<li><p>For a two argument function, use <code>.x</code> and <code>.y</code></p></li>
+<li><p>For more arguments, use <code>..1</code>, <code>..2</code>, <code>..3</code> etc</p></li>
+</ul>
+
+<p>This syntax allows you to create very compact anonymous functions.</p>
+<p>If <strong>character vector</strong>, <strong>numeric vector</strong>, or <strong>list</strong>, it is
+converted to an extractor function. Character vectors index by
+name and numeric vectors index by position; use a list to index
+by position and name at different levels. If a component is not
+present, the value of <code>.default</code> will be returned.</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>Unused.</p></td>
+      <td><p>Additional arguments passed on to the mapped function.</p></td>
+    </tr>
+    <tr>
+      <th>.crs</th>
+      <td><p>Coordinate Reference System. See <code><a href='https://www.rdocumentation.org/packages/sf/topics/st_crs'>sf::st_crs()</a></code> for details.</p></td>
+    </tr>
+    <tr>
+      <th>.precision</th>
+      <td><p>Numeric. Precision applied to every coordinate, expressed
+as a scale factor. For instance 1000 to round to three decimals.</p></td>
+    </tr>
+    <tr>
+      <th>.check_ring_dir</th>
+      <td><p>Logical. Check that the polygon ring directions are
+counter clockwise and holes are clockwise, order is correct it if not.
+Default to `FALSE``.</p></td>
+    </tr>
+    <tr>
+      <th>.y</th>
+      <td><p>Vectors of the same length. A vector of length 1 will
+be recycled.</p></td>
     </tr>
     </table>
     
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <p>A line (<code>LINESTRING</code>) of class <code>sfc</code>.</p>
+    <div class='dont-index'><p><code><a href='https://purrr.tidyverse.org/reference/map.html'>purrr::map()</a></code> <a href='https://www.rdocumentation.org/packages/sf/topics/sfc'>sf::st_sfc</a></p></div>
     
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>dplyr</span>)</div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>Attaching package: ‘dplyr’</span></div><div class='output co'>#&gt; <span class='message'>The following object is masked from ‘package:testthat’:</span>
-#&gt; <span class='message'></span>
-#&gt; <span class='message'>    matches</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from ‘package:stats’:</span>
-#&gt; <span class='message'></span>
-#&gt; <span class='message'>    filter, lag</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from ‘package:base’:</span>
-#&gt; <span class='message'></span>
-#&gt; <span class='message'>    intersect, setdiff, setequal, union</span></div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>tibble</span>)
-
-<span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span>(<span class='kw'>g</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"a"</span>, <span class='st'>"a"</span>), <span class='kw'>point</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fu'><a href='st_point.html'>st_point</a></span>(<span class='fl'>12</span>, <span class='fl'>21</span>), <span class='fu'><a href='st_point.html'>st_point</a></span>(<span class='fl'>21</span>, <span class='fl'>12</span>)))
-<span class='no'>x</span> <span class='kw'>%&gt;%</span>
- <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarise</a></span>(<span class='kw'>line</span> <span class='kw'>=</span> <span class='fu'>st_makeline</span>(<span class='no'>point</span>))</div><div class='output co'>#&gt; # A tibble: 1 x 1
-#&gt;             line
-#&gt;     &lt;LINESTRING&gt;
-#&gt; 1 (12 21, 21 12)</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       
-      <li><a href="#value">Value</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
+      <li><a href="#see-also">See also</a></li>
+          </ul>
 
   </div>
 </div>
