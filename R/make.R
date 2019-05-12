@@ -8,14 +8,14 @@
 #'
 #' Create points from coordinates. `st_point` is simply a wrapper around `st_makepoint`.
 #'
-#' `.x` amd `.y` must be of the same length. If one of the coordiantes are
+#' `x` amd `y` must be of the same length. If one of the coordiantes are
 #' missing, it creates and empty point geometry.
 #'
-#' @return List column of points with the same length than `.x`` and `.y`.
+#' @return List column of points with the same length than `x` and `y`.
 #'
 #' @rdname st_point
-#' @param .x Numeric vector of x coordinates (e.g. longitude) or a list of pairs of coordinates. In the latter than case `.y`` can be missing.
-#' @param .y Numeric vector of y coordinates (e.g. latitude).
+#' @param x Numeric vector of x coordinates (e.g. longitude) or a list of pairs of coordinates. In the latter case `y` can be missing.
+#' @param y Numeric vector of y coordinates (e.g. latitude).
 #' @param crs Integer or character that identifies the coordinate reference system (default is `NA`). This can also be set by using [st_crs()] (or to find out more about `crs`). Coordinate reference system (`crs`) is the equivalent of POSTGIS's spatial reference identifier (`srid`).
 #'
 #' @family make
@@ -28,11 +28,11 @@
 #' df <- tibble(longitude = -71.1043, latitude = 42.3150)
 #' df %>%
 #'   mutate(geometry = st_point(longitude, latitude))
-st_makepoint <- function(.x, .y, crs = sf::NA_crs_) {
-  if (base::missing(.y)) {
-    pts <- purrr::map(.x, sf::st_point)
+st_makepoint <- function(x, y, crs = sf::NA_crs_) {
+  if (base::missing(y)) {
+    pts <- purrr::map(x, sf::st_point)
   } else {
-    pts <- purrr::map2(.x, .y, ~sf::st_point(c(.x, .y)))
+    pts <- purrr::map2(x, y, ~sf::st_point(c(.x, .y)))
   }
   sf::st_as_sfc(pts, crs = crs)
 }
@@ -63,7 +63,7 @@ st_multi <- function(.geom, ...) UseMethod("st_multi")
 
 #' @export
 st_multi.sfc_POINT <- function(.geom, ...) {
-  cast_union(.geom, .cast = "MULTIPOINT")
+  cast_combine(.geom, .cast = "MULTIPOINT")
 }
 
 #' @export
@@ -95,9 +95,9 @@ st_makeline <- function(.geom, .to, ...) UseMethod("st_makeline")
 #' @export
 st_makeline.sfc_POINT <- function(.geom, .to, ...) {
   if(!missing(.to)) {
-    return(cast_union(.geom, .to, .cast = "LINESTRING", .by_feature = TRUE))
+    return(cast_combine(.geom, .to, .cast = "LINESTRING", .by_feature = TRUE))
   }
-  cast_union(.geom, .cast = "LINESTRING")
+  cast_combine(.geom, .cast = "LINESTRING")
 }
 
 #' @export
@@ -113,29 +113,29 @@ st_makeline.list <- function(.geom, ...) {
   st_makeline(.geom, ...)
 }
 
-st_makeline.numeric <- function(.x, .y, ...) {
-  if (missing(.y)) {
-    stop("You must provide at least a second coordinate `.y`.", call. = FALSE)
+st_makeline.numeric <- function(x, y, ...) {
+  if (missing(y)) {
+    stop("You must provide at least a second coordinate `y`.", call. = FALSE)
   }
-  if (!is.numeric(.y)) {
-    stop("`.y` must be numeric too", call. = FALSE)
+  if (!is.numeric(y)) {
+    stop("`y` must be numeric too", call. = FALSE)
   }
-  if (length(.x) != length(.y)) {
-    if (length(.x) != 1 && length(.y) != 1) {
-      stop("`.x` and `.y` must be of the same length or length 1 to be recycled.", call. = FALSE)
+  if (length(x) != length(y)) {
+    if (length(x) != 1 && length(y) != 1) {
+      stop("`x` and `y` must be of the same length or length 1 to be recycled.", call. = FALSE)
     }
-    if (length(.x) == 1) .x <- rep(.x, length(.y))
-    if (length(.y) == 1) .y <- rep(.y, length(.x))
+    if (length(x) == 1) x <- rep(x, length(y))
+    if (length(y) == 1) y <- rep(y, length(x))
   }
-  st_makeline(purrr::map2(.x, .y, st_point))
+  st_makeline(purrr::map2(x, y, st_point))
 }
 
-cast_union <- function(.x, .y, .cast, .by_feature = FALSE, ...) {
-  sf::st_cast(st_union(.x, .y, .by_feature), to = .cast, ...)
+cast_union <- function(x, y, .cast, .by_feature = FALSE, ...) {
+  sf::st_cast(st_union(x, y, .by_feature), to = .cast, ...)
 }
 
-cast_combine <- function(.x, .cast, ...) {
-  sf::st_cast(sf::st_combine(.x), to = .cast, ...)
+cast_combine <- function(x, .cast, ...) {
+  sf::st_cast(sf::st_combine(x), to = .cast, ...)
 }
 
 #' Dump vertex to a nested tibble of points
