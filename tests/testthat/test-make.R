@@ -127,7 +127,11 @@ test_that("Create line from list of coordinates", {
 test_that("Create line from numeric", {
   expect_error(st_makeline(1:3), "second coordinate")
   expect_error(st_makeline(1:3, 1:2), "same length")
+  expect_error(st_makeline(1:3, letters[1:3]), "numeric")
+  # recycle `y`
   expect_identical(st_makeline(1:2, 1), st_makeline(list(st_point(1, 1), st_point(2, 1))))
+  # recycle `x`
+  expect_identical(st_makeline(1, 1:2), st_makeline(list(st_point(1, 1), st_point(1, 2))))
 })
 # dump --------------------------------------------------------------------
 
