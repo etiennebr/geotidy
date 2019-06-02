@@ -105,24 +105,21 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>st_makepoint</span>(<span class='no'>x</span>, <span class='no'>y</span>, <span class='kw'>crs</span> <span class='kw'>=</span> <span class='kw pkg'>sf</span><span class='kw ns'>::</span><span class='no'><a href='https://www.rdocumentation.org/packages/sf/topics/st_crs'>NA_crs_</a></span>)
+    <pre class="usage"><span class='fu'>st_makepoint</span>(<span class='no'>x</span>, <span class='no'>y</span>)
 
-<span class='fu'>st_point</span>(<span class='no'>x</span>, <span class='no'>y</span>, <span class='kw'>crs</span> <span class='kw'>=</span> <span class='kw pkg'>sf</span><span class='kw ns'>::</span><span class='no'><a href='https://www.rdocumentation.org/packages/sf/topics/st_crs'>NA_crs_</a></span>)</pre>
+<span class='fu'>st_point</span>(<span class='no'>x</span>, <span class='no'>y</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>Numeric vector of x coordinates (e.g. longitude) or a list of pairs of coordinates. In the latter case <code>y</code> can be missing.</p></td>
+      <td><p>Numeric vector of x coordinates (e.g. longitude) or a list of pairs
+of coordinates. In the latter case <code>y</code> can be missing.</p></td>
     </tr>
     <tr>
       <th>y</th>
       <td><p>Numeric vector of y coordinates (e.g. latitude).</p></td>
-    </tr>
-    <tr>
-      <th>crs</th>
-      <td><p>Integer or character that identifies the coordinate reference system (default is <code>NA</code>). This can also be set by using <code>st_crs()</code> (or to find out more about <code>crs</code>). Coordinate reference system (<code>crs</code>) is the equivalent of POSTGIS's spatial reference identifier (<code>srid</code>).</p></td>
     </tr>
     </table>
     
