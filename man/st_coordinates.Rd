@@ -2,9 +2,12 @@
 % Please edit documentation in R/make.R
 \name{st_dumppoints}
 \alias{st_dumppoints}
+\alias{st_coordinates}
 \title{Dump vertex to a nested tibble of points}
 \usage{
 st_dumppoints(x)
+
+st_coordinates(x)
 }
 \arguments{
 \item{x}{Geometry \code{sfc} column}
@@ -18,6 +21,11 @@ Creates a geometry column containing a tibble where each vertex is a row.
 in that it creates new rows. For example it can be used to expand
 MULTIPOLYGONS into POLYGONS.
 }
+\details{
+\code{st_coordinates} returns a tibble containing coordinates, also some
+grouping features. \code{POINT}: \code{.path = 1}; \code{MULTIPOINT}: \code{.path} orders the
+points; \code{LINESTRING}: ``
+}
 \seealso{
-\code{\link[sf:st_cast]{sf::st_cast()}}, \code{\link[=st_coordinates]{st_coordinates()}}
+\code{\link[sf:st_cast]{sf::st_cast()}}, \code{\link[=st_coordinates]{st_coordinates()}}, \code{\link[sf:st_coordinates]{sf::st_coordinates()}}
 }

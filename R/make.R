@@ -14,9 +14,9 @@
 #' @return List column of points with the same length than `x` and `y`.
 #'
 #' @rdname st_point
-#' @param x Numeric vector of x coordinates (e.g. longitude) or a list of pairs of coordinates. In the latter case `y` can be missing.
+#' @param x Numeric vector of x coordinates (e.g. longitude) or a list of pairs
+#'   of coordinates. In the latter case `y` can be missing.
 #' @param y Numeric vector of y coordinates (e.g. latitude).
-#' @param crs Integer or character that identifies the coordinate reference system (default is `NA`). This can also be set by using [st_crs()] (or to find out more about `crs`). Coordinate reference system (`crs`) is the equivalent of POSTGIS's spatial reference identifier (`srid`).
 #'
 #' @family make
 #' @export
@@ -28,13 +28,13 @@
 #' df <- tibble(longitude = -71.1043, latitude = 42.3150)
 #' df %>%
 #'   mutate(geometry = st_point(longitude, latitude))
-st_makepoint <- function(x, y, crs = sf::NA_crs_) {
+st_makepoint <- function(x, y) {
   if (base::missing(y)) {
     pts <- purrr::map(x, sf::st_point)
   } else {
     pts <- purrr::map2(x, y, ~sf::st_point(c(.x, .y)))
   }
-  sf::st_as_sfc(pts, crs = crs)
+  sf::st_as_sfc(pts)
 }
 
 #' @rdname st_point
@@ -101,22 +101,25 @@ st_makeline.sfc_POINT <- function(.geom, .to, ...) {
 }
 
 #' @export
-st_makeline.sfc_MULTIPOINT <- function(.geom, ...) {
+st_makeline.sfc_MULTIPOINT <- function(.geom, .to, ...) {
   # multipoints can be treated as points
   st_makeline.sfc_POINT(.geom)
 }
 
 #' @export
-st_makeline.list <- function(.geom, ...) {
+st_makeline.list <- function(.geom, .to, ...) {
   # list of points can be treated as points
   .geom <- sf::st_sfc(unlist(.geom, recursive = FALSE, use.names = FALSE))
-  st_makeline(.geom, ...)
+  st_makeline(.geom)
 }
 
-st_makeline.numeric <- function(x, y, ...) {
-  if (missing(y)) {
+#' @export
+st_makeline.numeric <- function(.geom, .to, ...) {
+  x <- .geom
+  if (missing(.to)) {
     stop("You must provide at least a second coordinate `y`.", call. = FALSE)
   }
+  y <- .to
   if (!is.numeric(y)) {
     stop("`y` must be numeric too", call. = FALSE)
   }
@@ -127,6 +130,7 @@ st_makeline.numeric <- function(x, y, ...) {
     if (length(x) == 1) x <- rep(x, length(y))
     if (length(y) == 1) y <- rep(y, length(x))
   }
+
   st_makeline(purrr::map2(x, y, st_point))
 }
 
@@ -145,8 +149,9 @@ cast_combine <- function(x, .cast, ...) {
 #' in that it creates new rows. For example it can be used to expand
 #' MULTIPOLYGONS into POLYGONS.
 #' @param x Geometry `sfc` column
+#' @rdname st_coordinates
 #' @return A list of tibbles.
-#' @seealso [sf::st_cast()], [st_coordinates()]
+#' @seealso [sf::st_cast()], [st_coordinates()], [sf::st_coordinates()]
 #' @export
 st_dumppoints <- function(x) {
   purrr::map(x, .st_dumppoints)
@@ -155,11 +160,16 @@ st_dumppoints <- function(x) {
 .st_dumppoints <- function(x) {
   .y <- NULL
   .x <- NULL
-  .st_coordinates(x) %>%
-    transmute(geom = st_point(.x, .y), path = row_number())
+  dplyr::transmute(.st_coordinates(x), geom = st_point(.x, .y), path = row_number())
 }
 
-
+#' List of vertex coordinates
+#'
+#' @rdname st_coordinates
+#' @details `st_coordinates` returns a tibble containing coordinates, also some
+#'   grouping features. `POINT`: `.path = 1`; `MULTIPOINT`: `.path` orders the
+#'   points; `LINESTRING`: ``
+#' @export
 st_coordinates <- function(x) {
   purrr::map(x, .st_coordinates)
 }

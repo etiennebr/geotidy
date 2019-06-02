@@ -6,6 +6,8 @@ context("test-exports")
 test_that("st_point returns POINT", {
   x <- st_point(list(c(1 ,2)))
   expect_is(x, "sfc_POINT")
+  expect_crs(x, sf::NA_crs_)
+  expect_npoints(x, 1)
 })
 
 test_that("st_point works on columns", {
@@ -40,7 +42,9 @@ test_that("st_multi on point returns multipoint", {
 })
 
 test_that("st_multi on points returns multipoints", {
-  x <- tibble::tibble(g = c("a", "a", "b"), point = c(st_point(12, 21), st_point(21, 12), st_point(14, 15)))
+  x <- tibble::tibble(
+    g = c("a", "a", "b"),
+    point = c(st_point(12, 21), st_point(21, 12), st_point(14, 15)))
   x <-
     x %>%
     group_by(g) %>%
@@ -96,7 +100,9 @@ test_that("A pair of points create a line", {
 })
 
 test_that("Create line from multipoints", {
-  x <- tibble::tibble(g = c("a", "a"), point = c(st_point(12, 21), st_point(21, 12))) %>%
+  x <- tibble::tibble(
+    g = c("a", "a"),
+    point = c(st_point(12, 21), st_point(21, 12))) %>%
     summarise(multi = st_multi(point)) %>%
     mutate(line = st_makeline(multi))
   expect_is(x[["line"]], "sfc_LINESTRING")
@@ -109,10 +115,10 @@ test_that("Create line from list of points (summarise)", {
     summarise(line = st_makeline(points))
   expect_is(x[["line"]], "sfc_LINESTRING")
   expect_is(x[["line"]], "sfc")
-  expect_equal(nrow(x[["line"]][[1]]), 2)
+  expect_npoints(x[["line"]], 2)
 
-  list_of_points <- map2(sample(1:10), sample(1:10), st_point)
-  st_makeline(list_of_points)
+  list_of_points <- map2(1:10, 1:10, st_point)
+  expect_npoints(st_makeline(list_of_points), 10)
 })
 
 test_that("Create line from list of coordinates", {
@@ -132,6 +138,18 @@ test_that("Create line from numeric", {
   expect_identical(st_makeline(1:2, 1), st_makeline(list(st_point(1, 1), st_point(2, 1))))
   # recycle `x`
   expect_identical(st_makeline(1, 1:2), st_makeline(list(st_point(1, 1), st_point(1, 2))))
+})
+
+test_that("Create line from list of coordinates", {
+  x <- tibble(x = 1:3, y = 1:3)
+  y <- summarise(x, linestring = st_makeline(x, y))
+
+  expect_is(y[["linestring"]], "sfc_LINESTRING")
+  expect_is(y[["linestring"]], "sfc")
+  expect_npoints(y[["linestring"]], 3)
+  expect_error(summarise(x, linestring = st_makeline(x)), "second coordinate")
+  expect_error(summarise(x, linestring = st_makeline(x, "a")), "numeric")
+  expect_error(summarise(x, linestring = st_makeline(1:3, 1:2)), "same length")
 })
 # dump --------------------------------------------------------------------
 
@@ -159,4 +177,26 @@ test_that("st_dumppoints returns a nested tibble", {
   expect_is(y$pts[[1]], "tbl_df")
   expect_equal(y$pts[[1]]$geom, x$pts[1:2])
   expect_equal(y$pts[[1]]$path, 1:2)
+})
+
+# Coordinates -----------------------------------------------------------------
+test_that("st_coordinates returns a nested tibble", {
+  x <- tibble(tuple = list(c(1,2), c(3, 4), c(5, 6))) %>%
+    mutate(pts = st_makepoint(tuple))
+  y <- x %>%
+    summarise(linestring = st_makeline(pts)) %>%
+    mutate(coords = st_coordinates(linestring))
+  expect_is(y$coords, "list")
+  expect_is(y$coords[[1]], "tbl_df")
+})
+
+test_that("st_coordinates returns a `.path` for each point", {
+  x <- st_makepoint(list(c(1,2), c(3, 4), c(5, 6)))
+
+  expect_equal(names(st_coordinates(x)[[1]]), c(".x", ".y", ".path"))
+  x <- st_multi(x)
+  expect_equal(names(st_coordinates(x)[[1]]), c(".x", ".y", ".l1", ".path"))
+  x <- st_makeline(x)
+  expect_equal(names(st_coordinates(x)[[1]]), c(".x", ".y", ".l1", ".path"))
+  # todo: add other types
 })
