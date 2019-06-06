@@ -81,6 +81,7 @@ st_multi.sfc_MULTIPOINT <- function(.geom, ...) {
 #' @param .to A point geometry to create pairwise lines.
 #' @param ... Unused.
 #' @return A line (`LINESTRING`) of class `sfc`.
+#' @family make
 #' @export
 #' @examples
 #' library(dplyr)
@@ -138,8 +139,13 @@ cast_union <- function(x, y, .cast, .by_feature = FALSE, ...) {
   sf::st_cast(st_union(x, y, .by_feature), to = .cast, ...)
 }
 
-cast_combine <- function(x, .cast, ...) {
-  sf::st_cast(sf::st_combine(x), to = .cast, ...)
+cast_combine <- function(x, y, .cast, .by_feature = FALSE, ...) {
+  if (!.by_feature) {
+    return(sf::st_cast(sf::st_combine(x), to = .cast, ...))
+  }
+  if(missing(y)) stop("If `.by_feature` is TRUE, you must provide `y` to combine with `x`.", call. = FALSE)
+  pairs <- map2_sfc(x, y, ~c(.x, .y), crs = unique_crs(x))
+  sf::st_cast(pairs, to = .cast, ...)
 }
 
 #' Dump vertex to a nested tibble of points

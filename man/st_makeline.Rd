@@ -30,3 +30,8 @@ x <- tibble(g = c("a", "a"), point = c(st_point(12, 21), st_point(21, 12)))
 x \%>\%
  summarise(line = st_makeline(point))
 }
+\seealso{
+Other make: \code{\link{st_makepoint}},
+  \code{\link{st_multi}}, \code{\link{st_numpoints}}
+}
+\concept{make}
