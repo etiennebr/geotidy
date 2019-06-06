@@ -28,7 +28,7 @@ tibble(g = c("a", "a"), point = c(st_point(12, 21), st_point(21, 12))) \%>\%
   summarise(multi = st_multi(point))
 }
 \seealso{
-Other make: \code{\link{st_makepoint}},
-  \code{\link{st_numpoints}}
+Other make: \code{\link{st_makeline}},
+  \code{\link{st_makepoint}}, \code{\link{st_numpoints}}
 }
 \concept{make}
