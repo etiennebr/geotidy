@@ -30,11 +30,9 @@
 #'   mutate(geometry = st_point(longitude, latitude))
 st_makepoint <- function(x, y) {
   if (base::missing(y)) {
-    pts <- purrr::map(x, sf::st_point)
-  } else {
-    pts <- purrr::map2(x, y, ~sf::st_point(c(.x, .y)))
+    return(map_sfc(x, sf::st_point))
   }
-  sf::st_as_sfc(pts)
+  map2_sfc(x, y, ~sf::st_point(c(.x, .y)))
 }
 
 #' @rdname st_point

@@ -27,6 +27,16 @@ st_numpoints.sfc_LINESTRING <- function(.geom) {
   purrr::map_int(.geom, nrow)
 }
 
+#' @export
+st_numpoints.sfc_POLYGON <- function(.geom) {
+  purrr::map_int(.geom, ~purrr::map_int(.x, nrow))
+}
+
+#' @export
+st_numpoints.sfc_MULTIPOLYGON <- function(.geom) {
+  purrr::map_int(.geom, ~sum(purrr::map_int(.x, nrow)))
+}
+
 #' @rdname st_numpoints
 #' @export
 st_npoints <- st_numpoints
