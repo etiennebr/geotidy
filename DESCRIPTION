@@ -22,7 +22,7 @@ Imports:
     magrittr,
     rlang
 Suggests: 
-    testthat,
+    testthat (>= 2.1.0),
     RColorBrewer,
     usethis,
     covr
