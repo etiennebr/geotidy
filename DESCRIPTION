@@ -19,7 +19,8 @@ Imports:
     dplyr,
     tibble,
     purrr,
-    magrittr
+    magrittr,
+    rlang
 Suggests: 
     testthat,
     RColorBrewer,
