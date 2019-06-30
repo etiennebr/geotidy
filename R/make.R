@@ -163,10 +163,13 @@ st_dumppoints <- function(x) {
   purrr::map(x, .st_dumppoints)
 }
 
+#' @importFrom rlang .data
 .st_dumppoints <- function(x) {
-  .y <- NULL
-  .x <- NULL
-  dplyr::transmute(.st_coordinates(x), geom = st_point(.x, .y), path = row_number())
+  dplyr::transmute(
+    .st_coordinates(x),
+    geom = st_point(.data$.x, .data$.y),
+    path = row_number()
+    )
 }
 
 #' List of vertex coordinates
