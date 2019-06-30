@@ -20,7 +20,8 @@ Imports:
     tibble,
     purrr,
     magrittr,
-    rlang
+    rlang,
+    assertthat
 Suggests: 
     testthat (>= 2.1.0),
     RColorBrewer,

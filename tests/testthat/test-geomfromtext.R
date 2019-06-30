@@ -6,7 +6,8 @@ test_that("Can convert from text", {
   expect_is(x, "sfc_POLYGON")
   expect_npoints(x, 5)
 
-  x <- st_geomfromtext(c('POLYGON((38 16,38 50,65 50,66 16,38 16))', 'POLYGON((35 13,22 51,64 49,35 13))'))
+  x <- st_geomfromtext(c('POLYGON((38 16,38 50,65 50,66 16,38 16))',
+                         'POLYGON((35 13,22 51,64 49,35 13))'))
   expect_is(x, "sfc")
   expect_is(x, "sfc_POLYGON")
   expect_npoints(x, c(5, 4))
@@ -23,7 +24,12 @@ test_that("Can convert from text", {
 })
 
 test_that("Can convert from EWKT", {
-  x <- st_geomfromtext('SRID=4326;LINESTRING(-71.1602 42.2587,-71.1608 42.2591,-71.1611 42.2593)')
+  # ...even with newlines
+  x <- st_geomfromtext('SRID=4326;
+                       LINESTRING(-71.1602 42.2587,
+                       -71.1608
+                       42.2591,-71.1611
+                       42.2593)')
   expect_is(x, "sfc")
   expect_is(x, "sfc_LINESTRING")
   expect_npoints(x, 3)
