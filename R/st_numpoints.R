@@ -19,22 +19,22 @@ st_numpoints.sfc_POINT <- function(.geom) {
 
 #' @export
 st_numpoints.sfc_MULTIPOINT <- function(.geom) {
-  purrr::map_int(.geom, nrow)
+  purrr::map_int(st_dumppoints(.geom), nrow)
 }
 
 #' @export
 st_numpoints.sfc_LINESTRING <- function(.geom) {
-  purrr::map_int(.geom, nrow)
+  purrr::map_int(st_dumppoints(.geom), nrow)
 }
 
 #' @export
 st_numpoints.sfc_POLYGON <- function(.geom) {
-  purrr::map_int(.geom, ~purrr::map_int(.x, nrow))
+  purrr::map_int(st_dumppoints(.geom), nrow)
 }
 
 #' @export
 st_numpoints.sfc_MULTIPOLYGON <- function(.geom) {
-  purrr::map_int(.geom, ~sum(purrr::map_int(.x, nrow)))
+  purrr::map_int(st_dumppoints(.geom), nrow)
 }
 
 #' @rdname st_numpoints

@@ -29,7 +29,3 @@ map_crs <- function(x) {
   }
   out$result
 }
-
-is_crs <- function(x) {
-  inherits(x, "crs")
-}
