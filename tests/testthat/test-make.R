@@ -8,6 +8,7 @@ test_that("st_point returns POINT", {
   expect_is(x, "sfc_POINT")
   expect_crs(x, sf::NA_crs_)
   expect_npoints(x, 1)
+  expect_true(is_geometry(x))
 })
 
 test_that("st_point works on columns", {
