@@ -72,7 +72,7 @@ st_buffer(shp)
 shp %>% 
   mutate(geometry = st_buffer(geometry))
 ```
-If you already use `dplyr` with `sf`, `geotidy` should fell natural and remove
+If you already use `dplyr` with `sf`, `geotidy` should feel natural and remove
 some of the casting operations. `geotidy` guarantees that your data will stay
 tidy from start to finish. By having explicit management of geometry columns, it
 is also easy to track multiple columns.
