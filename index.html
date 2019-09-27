@@ -7,8 +7,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Tidy manipulation of spatial data • geotidy</title>
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- sticky kit --><script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous">
+<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
 <script src="pkgdown.js"></script><meta property="og:title" content="Tidy manipulation of spatial data">
 <meta property="og:description" content="Manipulate spatial data tidily. `Geotidy` provides a selection of 
     spatial functions from the `sf` package that are adapted to a tidy workflow. 
@@ -21,7 +22,7 @@
 <![endif]-->
 </head>
 <body>
-    <div class="container template-article">
+    <div class="container template-home">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
@@ -41,7 +42,7 @@
       <ul class="nav navbar-nav">
 <li>
   <a href="index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -58,13 +59,10 @@
 <!--/.navbar -->
 
       
-      </header><div class="row">
-  <div class="col-md-9 contents">
-    
 
-    
-    
-<!-- README.md is generated from README.Rmd. Please edit that file -->
+      </header><div class="row">
+  <div class="contents col-md-9">
+
 <div id="geotidy" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
 <a href="#geotidy" class="anchor"></a>geotidy</h1></div>
@@ -76,15 +74,15 @@
 <a href="#installation" class="anchor"></a>Installation</h2>
 <p>You can install the experimental version of geotidy from github :</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="co"># install.packages("remotes")</span></a>
-<a class="sourceLine" id="cb1-2" data-line-number="2">remotes<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/remotes/topics/install_github">install_github</a></span>(<span class="st">"etiennebr/geotidy"</span>)</a></code></pre></div>
+<a class="sourceLine" id="cb1-2" data-line-number="2">remotes<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/remotes/man/install_github.html">install_github</a></span>(<span class="st">"etiennebr/geotidy"</span>)</a></code></pre></div>
 </div>
 <div id="example" class="section level2">
 <h2 class="hasAnchor">
 <a href="#example" class="anchor"></a>Example</h2>
 <p>Here’s how you manipulate spatial data with <code>geotidy</code>.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(tibble)</a>
-<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(dplyr)</a>
-<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(geotidy)</a>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(tibble)</a>
+<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(dplyr)</a>
+<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(geotidy)</a>
 <a class="sourceLine" id="cb2-4" data-line-number="4"></a>
 <a class="sourceLine" id="cb2-5" data-line-number="5"><span class="kw"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span>(<span class="dt">place =</span> <span class="st">"Sunset Room"</span>, <span class="dt">longitude =</span> <span class="fl">-97.7404985</span>, <span class="dt">latitude =</span> <span class="fl">30.2645315</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb2-6" data-line-number="6"><span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(<span class="dt">geometry =</span> <span class="kw"><a href="reference/st_point.html">st_point</a></span>(longitude, latitude))</a>
@@ -93,25 +91,26 @@
 <a class="sourceLine" id="cb2-9" data-line-number="9"><span class="co">#&gt;   &lt;chr&gt;           &lt;dbl&gt;    &lt;dbl&gt;             &lt;POINT&gt;</span></a>
 <a class="sourceLine" id="cb2-10" data-line-number="10"><span class="co">#&gt; 1 Sunset Room     -97.7     30.3 (-97.7405 30.26453)</span></a></code></pre></div>
 </div>
-<div id="motivation" class="section level2">
+</div>
+<div id="motivation" class="section level1">
+<h1 class="hasAnchor">
+<a href="#motivation" class="anchor"></a>Motivation</h1>
+<p><code>geotidy</code> does less than <code>sf</code> to make manipulations explicit and compatible with other backends. <em>Explicit</em> means that it won’t try to guess which column is a geometry and should receive the operation. It also makes it clear by reading the code, which geometry is impacted. This is done by treating geometry columns just like other tibble columns. <code>sf</code> often hides the geometry column, <code>geotidy</code> treats it just like a regular columns. This also makes it easier to interact with other OGC compliant tools, such as <code>postgis</code> or <code>spark+geomesa</code>.</p>
+<div id="example-1" class="section level2">
 <h2 class="hasAnchor">
-<a href="#motivation" class="anchor"></a>Motivation</h2>
-<p>Many spatial formats use a model where a geometry can have many attributes. This model can be very useful in many applications, but it sometimes conflicts with the principles of tidy data, where one observation is one row. To keep spatial data and operations tidy, <code>geotidy</code> does less than <code>sf</code>. It makes manipulations explicit by forcing the use of a function on the geometry column. It doesn’t try to guess which is the geometry column that should receive the operation. It also makes it clear by reading the code, which geometry is impacted. This is done by treating geometry columns just like other tibble columns. <code>sf</code> often hides the geometry column, <code>geotidy</code> treats it just like a regular columns. This also makes it easier to interact with other OGC compliant tools, such as <code>postgis</code> or <code>spark+geomesa</code>.</p>
-<div id="example-1" class="section level3">
-<h3 class="hasAnchor">
-<a href="#example-1" class="anchor"></a>Example</h3>
+<a href="#example-1" class="anchor"></a>Example</h2>
 <p>While <code>sf</code> will guess which column should be buffered:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">shp &lt;-<span class="st"> </span>sf<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/sf/topics/st_read">st_read</a></span>(<span class="st">""</span>)</a>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">shp &lt;-<span class="st"> </span>sf<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/sf/man/st_read.html">st_read</a></span>(<span class="st">""</span>)</a>
 <a class="sourceLine" id="cb3-2" data-line-number="2"><span class="kw">st_buffer</span>(shp)</a></code></pre></div>
 <p><code>geotidy</code> forces to be explicit and use <code>dplyr</code> verbs</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">shp <span class="op">%&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb4-2" data-line-number="2"><span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(<span class="dt">geometry =</span> <span class="kw">st_buffer</span>(geometry))</a></code></pre></div>
-<p>If you already use <code>dplyr</code> with <code>sf</code>, <code>geotidy</code> should fell natural and remove some of the casting operations. <code>geotidy</code> guarantees that your data will stay tidy from start to finish. By having explicit management of geometry columns, it is also easy to track multiple columns.</p>
+<p>If you already use <code>dplyr</code> with <code>sf</code>, <code>geotidy</code> should fell natural and remove some of the casting operations. <code>geotidy</code> guarantees that your data will stay tidy from start to finish. By having explicit management of geometry columns, it is easy to track multiple columns.</p>
 <p><code>geotidy</code> also guarantees that the returned values are either scalar, or a vector or a list with the same length than the original geometry and not drop any data without the user consent (looking at you <code>st_cast</code>!).</p>
-<p><code>geotidy</code> is not a fork or a separation from <code>sf</code>. It just adds a constrained layer on top of <code>sf</code> to facilitate a tidy workflow. It is an experiment that could be integrated in <code>sf</code> and is likely to change.</p>
+<p><code>geotidy</code> is not a fork or a separation from <code>sf</code>. It just adds a constrained layer on top of <code>sf</code> to facilitate a tidy workflow. It is an experiment and is very likely to change.</p>
 </div>
 </div>
-</div>
+
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -125,11 +124,11 @@
 <div class="developers">
 <h2>Developers</h2>
 <ul class="list-unstyled">
-<li>Etienne Racine <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0003-1109-894X" target="orcid.widget"><img src="https://members.orcid.org/sites/default/files/vector_iD_icon.svg" class="orcid" alt="ORCID" height="16"></a> </li>
+<li>Etienne Racine <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0003-1109-894X" target="orcid.widget"><img src="https://members.orcid.org/sites/default/files/vector_iD_icon.svg" class="orcid" alt="ORCID"></a> </li>
 </ul>
 </div>
 
-      <div class="dev-status">
+  <div class="dev-status">
 <h2>Dev status</h2>
 <ul class="list-unstyled">
 <li><a href="https://travis-ci.org/etiennebr/geotidy"><img src="https://travis-ci.org/etiennebr/geotidy.svg?branch=master" alt="Travis build status"></a></li>
@@ -138,7 +137,6 @@
 </ul>
 </div>
 </div>
-
 </div>
 
 
@@ -147,12 +145,14 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
 </div>
+
       </footer>
 </div>
 
   
+
 
   </body>
 </html>
