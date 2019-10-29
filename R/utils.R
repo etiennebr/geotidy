@@ -9,3 +9,7 @@ is_geometry <- function(x) {
 is_crs <- function(x) {
   inherits(x, "crs")
 }
+
+is_geometry_col <- function(x) {
+  vapply(x, is_geometry, logical(0))
+}
