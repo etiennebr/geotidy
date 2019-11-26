@@ -1,6 +1,6 @@
 Package: geotidy
 Title: Tidy manipulation of spatial data
-Version: 0.0.0.9000
+Version: 0.0.1
 Authors@R: 
     person(given = "Etienne",
            family = "Racine",
@@ -28,4 +28,4 @@ Suggests:
     usethis,
     covr
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 6.1.1
+RoxygenNote: 7.0.0
