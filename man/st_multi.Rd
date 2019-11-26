@@ -14,10 +14,10 @@ are often aggregated using a \code{\link[dplyr:group_by]{dplyr::group_by()}} fol
 \item{...}{Unused.}
 }
 \value{
-a single \code{MULTI*} geometry.
+a single \verb{MULTI*} geometry.
 }
 \description{
-Returns the geometry as a \code{MULTI*} geometry. If the geometry is already a \code{MULTI*}, it is returned unchanged.
+Returns the geometry as a \verb{MULTI*} geometry. If the geometry is already a \verb{MULTI*}, it is returned unchanged.
 }
 \examples{
 library(tibble)
@@ -28,7 +28,9 @@ tibble(g = c("a", "a"), point = c(st_point(12, 21), st_point(21, 12))) \%>\%
   summarise(multi = st_multi(point))
 }
 \seealso{
-Other make: \code{\link{st_makeline}},
-  \code{\link{st_makepoint}}, \code{\link{st_numpoints}}
+Other make: 
+\code{\link{st_makeline}()},
+\code{\link{st_makepoint}()},
+\code{\link{st_numpoints}()}
 }
 \concept{make}

@@ -4,23 +4,26 @@
 \alias{st_union}
 \title{Union geometries}
 \usage{
-st_union(x, y, by_feature = TRUE)
+st_union(x, y)
 }
 \arguments{
 \item{x}{A geometry or a set of geometries of class \code{sfc} to be unioned.}
 
-\item{y}{(optional). A geometry or a set of geometries of class \code{sfc}.}
-
-\item{by_feature}{default is \code{TRUE}. Union each element of \code{x} with
-corresponding \code{y} element. If \code{FALSE}, all the features are first unioned
-row-wise, then all unioned together.}
+\item{y}{An optional geometry or a set of geometries of class \code{sfc}.}
 }
 \description{
 Union geometries to create MULTI* geometries in the case of different
-geometries. If geometries are identical, the union returns a single geometry.
-If you need to preserve all geometries, use \code{\link[sf:st_combine]{sf::st_combine()}}. This function
-behaves differently than \code{sf} because it strictly returns 1 or \code{length(x)}
-geometries.
+geometries. If geometries are identical, the union returns a single (MULTI)
+geometry.
+If you need to preserve all geometries, use \code{\link[sf:st_combine]{sf::st_combine()}}.
+}
+\details{
+This function mimics postgis behavior, which is differently than \code{sf} because
+it strictly returns 1 or \code{length(x)} geometries.
+
+When provided two elements, each element of \code{x} is unioned with
+corresponding \code{y} element. When provided only \code{x}, then all the rows
+are unioned together to provide a single geometry.
 }
 \examples{
 library(tibble)
@@ -34,7 +37,7 @@ geom <- tibble(
 )
 geom <- mutate(geom, union = st_union(origin, destin))
 geom
-summarise(geom, union = st_union(origin, destin, by_feature = FALSE))
+summarise(geom, union = st_union(origin, destin))
 }
 \seealso{
 \code{\link[sf:st_union]{sf::st_union()}}, \code{\link[sf:st_combine]{sf::st_combine()}}

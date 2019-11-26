@@ -10,7 +10,7 @@ st_set_crs(x, value)
 st_setsrid(x, value)
 }
 \arguments{
-\item{x}{numeric, character, or object of class \link{sf} or \link{sfc}}
+\item{x}{numeric, character, or object of class \link[sf]{sf} or \link[sf]{sfc}}
 
 \item{value}{one of (i) character: a valid proj4string (ii) integer, a valid EPSG value (numeric), or (iii) a list containing named elements \code{proj4string} (character) and/or \code{epsg} (integer) with (i) and (ii).}
 }

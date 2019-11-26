@@ -11,6 +11,9 @@ knitr::opts_chunk$set(
   fig.path = "man/figures/README-",
   out.width = "100%"
 )
+library(tidyverse)
+library(sf)
+library(geotidy)
 ```
 # geotidy
 
@@ -36,15 +39,52 @@ remotes::install_github("etiennebr/geotidy")
 
 ## Example
 
-Here's how you manipulate spatial data with `geotidy`. 
+Here's how you can create spatial data.
 
 ```{r example, message = FALSE}
-library(tibble)
-library(dplyr)
+library(tidyverse)
 library(geotidy)
 
 tibble(place = "Sunset Room", longitude = -97.7404985, latitude = 30.2645315) %>% 
   mutate(geometry = st_point(longitude, latitude))
+```
+
+
+
+```{r}
+library(tidyverse)
+library(sf)
+library(geotidy)  # note: load geotidy last, because it replaces some sf functions
+
+giza <- tribble(
+  ~what,         ~longitude, ~latitude,
+  "Giza",        31.1342,   29.9792,
+  "Khafre",      31.130833, 29.976111,
+  "Menkaure",    31.128333, 29.9725,
+  "Khentkaus I", 31.135608, 29.973406,
+  "Sphynx",      31.137778, 29.975278
+) %>% 
+  # add a geometry column
+  mutate(geometry = st_point(longitude, latitude) %>% st_set_crs(4326))
+giza
+
+giza %>% 
+  ggplot(aes(geometry = geometry, label = what)) + 
+  geom_sf(size = 10, alpha = 0.1) +
+  geom_sf_text()
+
+# create a buffer around the points and union in a single geometry
+giza %>% 
+  mutate(
+    projected = st_transform(geometry, 32636),
+    buffer = st_buffer(projected, units::as_units(250, "m"))
+  ) %>% 
+  summarise(
+    geometry = st_union(projected),
+    buffer = st_union(buffer)
+  ) %>% 
+  ggplot(aes(geometry = buffer)) + 
+  geom_sf()
 ```
 
 ## Motivation
@@ -61,25 +101,15 @@ geometry column, `geotidy` treats it just like a regular columns. This also
 makes it easier to interact with other OGC compliant tools, such as `postgis` or
 `spark+geomesa`.
 
-### Example
-While `sf` will guess which column should be buffered:
-``` {r eval = FALSE}
-shp <- sf::st_read("")
-st_buffer(shp)
-```
-`geotidy` forces to be explicit and use `dplyr` verbs
-```{r eval = FALSE}
-shp %>% 
-  mutate(geometry = st_buffer(geometry))
-```
 If you already use `dplyr` with `sf`, `geotidy` should fell natural and remove
 some of the casting operations. `geotidy` guarantees that your data will stay
 tidy from start to finish. By having explicit management of geometry columns, it
 is also easy to track multiple columns.
 
-`geotidy` also guarantees that the returned values are either scalar, or a
+`geotidy` also guarantees that the returned values are either scalar, a
 vector or a list with the same length than the original geometry and not drop
-any data without the user consent (looking at you `st_cast`!).
+any data without the user explicit consent (looking at you `st_cast`!). 
+We also make it clear which functions aggregate the data by using `group_by`.
 
 `geotidy` is not a fork or a separation from `sf`. It just adds a constrained
 layer on top of `sf` to facilitate a tidy workflow. It is an experiment that

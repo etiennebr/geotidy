@@ -36,7 +36,6 @@ st_makepoint <- function(x, y) {
 }
 
 #' @rdname st_point
-#' @inheritParams st_makepoint
 #' @export
 st_point <- st_makepoint
 
@@ -133,8 +132,8 @@ st_makeline.numeric <- function(.geom, .to, ...) {
   st_makeline(purrr::map2(x, y, st_point))
 }
 
-cast_union <- function(x, y, .cast, .by_feature = FALSE, ...) {
-  sf::st_cast(st_union(x, y, .by_feature), to = .cast, ...)
+cast_union <- function(x, y, .cast, ...) {
+  sf::st_cast(st_union(st_union(x, y)), to = .cast, ...)
 }
 
 cast_combine <- function(x, y, .cast, .by_feature = FALSE, ...) {
