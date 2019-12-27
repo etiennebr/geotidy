@@ -154,14 +154,14 @@ row-wise, then all unioned together.</p></td>
 )
 <span class='no'>geom</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span>(<span class='no'>geom</span>, <span class='kw'>union</span> <span class='kw'>=</span> <span class='fu'>st_union</span>(<span class='no'>origin</span>, <span class='no'>destin</span>))
 <span class='no'>geom</span></div><div class='output co'>#&gt; # A tibble: 3 x 5
-#&gt;       x     y  origin  destin        union
-#&gt;   &lt;int&gt; &lt;int&gt; &lt;POINT&gt; &lt;POINT&gt; &lt;MULTIPOINT&gt;
-#&gt; 1     1     4   (1 4)   (2 5)   (1 4, 2 5)
-#&gt; 2     2     5   (2 5)   (3 6)   (2 5, 3 6)
-#&gt; 3     3     6   (3 6)   (4 7)   (3 6, 4 7)</div><div class='input'><span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarise</a></span>(<span class='no'>geom</span>, <span class='kw'>union</span> <span class='kw'>=</span> <span class='fu'>st_union</span>(<span class='no'>origin</span>, <span class='no'>destin</span>, <span class='kw'>by_feature</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>))</div><div class='output co'>#&gt; # A tibble: 1 x 1
-#&gt;                  union
-#&gt;           &lt;MULTIPOINT&gt;
-#&gt; 1 (1 4, 2 5, 3 6, 4 7)</div></pre>
+#&gt;       x     y  origin  destin          union
+#&gt;   &lt;int&gt; &lt;int&gt; &lt;POINT&gt; &lt;POINT&gt;   &lt;MULTIPOINT&gt;
+#&gt; 1     1     4   (1 4)   (2 5) ((1 4), (2 5))
+#&gt; 2     2     5   (2 5)   (3 6) ((2 5), (3 6))
+#&gt; 3     3     6   (3 6)   (4 7) ((3 6), (4 7))</div><div class='input'><span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarise</a></span>(<span class='no'>geom</span>, <span class='kw'>union</span> <span class='kw'>=</span> <span class='fu'>st_union</span>(<span class='no'>origin</span>, <span class='no'>destin</span>, <span class='kw'>by_feature</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>))</div><div class='output co'>#&gt; # A tibble: 1 x 1
+#&gt;                          union
+#&gt;                   &lt;MULTIPOINT&gt;
+#&gt; 1 ((1 4), (2 5), (3 6), (4 7))</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
