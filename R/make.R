@@ -84,8 +84,14 @@ st_multi.sfc_MULTIPOINT <- function(.geom, ...) {
 #' library(dplyr)
 #' library(tibble)
 #'
-#' x <- tibble(g = c("a", "a"), point = c(st_point(12, 21), st_point(21, 12)))
+#' x <- tibble(
+#'   g = c("a", "a", "b"),
+#'   point = c(st_point(12, 21), st_point(21, 12), st_point(11, 11))
+#' )
 #' x %>%
+#'   group_by(g) %>%
+#'   # make sure we create lines with more than one point
+#'   filter(n() > 1) %>%
 #'  summarise(line = st_makeline(point))
 #' @export
 st_makeline <- function(.geom, .to, ...) UseMethod("st_makeline")
@@ -94,6 +100,14 @@ st_makeline <- function(.geom, .to, ...) UseMethod("st_makeline")
 st_makeline.sfc_POINT <- function(.geom, .to, ...) {
   if(!missing(.to)) {
     return(cast_combine(.geom, .to, .cast = "LINESTRING", .by_feature = TRUE))
+  }
+  if (sum(st_numpoints(.geom)) < 2) {
+    # We could return:
+    #   - a linestring with a single vertex (postgis does it)
+    #   - an empty linestring
+    #   - the point
+    # But we go for a strict behavior
+    stop("A line must contain at least 2 points.", call. = FALSE)
   }
   cast_combine(.geom, .cast = "LINESTRING")
 }

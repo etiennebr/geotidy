@@ -69,11 +69,15 @@ test_that("A set of point is assembled as a line", {
   x <- tibble::tibble(
     g = c("a", "a"),
     point = c(st_point(12, 21), st_point(21, 12))
-    ) %>%
+  ) %>%
     group_by(g) %>%
     summarise(line = st_makeline(point))
   expect_is(x[["line"]], "sfc_LINESTRING")
   expect_is(x[["line"]], "sfc")
+})
+
+test_that("Cannot create a line from a single point", {
+  expect_error(st_makeline(st_point(1, 1)), "must contain at least 2 points")
 })
 
 test_that("A set of point is assembled as a line (no group)", {
