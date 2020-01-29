@@ -12,6 +12,9 @@
 #' @examples
 #' st_geomfromtext('POLYGON((38 16,38 50,65 50,66 16,38 16))')
 #' st_geomfromtext('POINT(-71.064544 42.28787)', crs = 4326)
+#' # EWKT works as well
+#' st_geomfromtext('SRID=4326;POINT(-71.064544 42.28787)')
+#
 # todo: move to sf
 # todo: the function should be translated to type casting for postgis
 #       because it is much faster than st_geomfromtext (~50 times).
