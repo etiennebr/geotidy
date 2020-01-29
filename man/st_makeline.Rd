@@ -26,8 +26,14 @@ to create a 2-vertex line.
 library(dplyr)
 library(tibble)
 
-x <- tibble(g = c("a", "a"), point = c(st_point(12, 21), st_point(21, 12)))
+x <- tibble(
+  g = c("a", "a", "b"),
+  point = c(st_point(12, 21), st_point(21, 12), st_point(11, 11))
+)
 x \%>\%
+  group_by(g) \%>\%
+  # make sure we create lines with more than one point
+  filter(n() > 1) \%>\%
  summarise(line = st_makeline(point))
 }
 \seealso{
