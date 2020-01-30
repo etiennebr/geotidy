@@ -7,3 +7,4 @@
 ^README\.Rmd$
 ^geotidy\.Rproj$
 ^\.Rproj\.user$
+^\.github/workflows/pr-commands\.yaml$
