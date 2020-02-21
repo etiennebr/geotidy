@@ -70,6 +70,12 @@ jobs:
             libgeos-dev \
             libproj-dev
 
+      - name: Brew
+        if: runner.os == 'macOS'
+        run: |
+          brew install pkg-config
+          brew install gdal
+
       - name: Install dependencies
         run: |
           library(remotes)
