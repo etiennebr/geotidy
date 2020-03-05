@@ -69,11 +69,15 @@ test_that("A set of point is assembled as a line", {
   x <- tibble::tibble(
     g = c("a", "a"),
     point = c(st_point(12, 21), st_point(21, 12))
-    ) %>%
+  ) %>%
     group_by(g) %>%
     summarise(line = st_makeline(point))
   expect_is(x[["line"]], "sfc_LINESTRING")
   expect_is(x[["line"]], "sfc")
+})
+
+test_that("Cannot create a line from a single point", {
+  expect_error(st_makeline(st_point(1, 1)), "must contain at least 2 points")
 })
 
 test_that("A set of point is assembled as a line (no group)", {
@@ -83,6 +87,18 @@ test_that("A set of point is assembled as a line (no group)", {
     ) %>%
     summarise(line = st_makeline(point))
   # TODO: st_union seems to duplicate lines
+  expect_is(x[["line"]], "sfc_LINESTRING")
+  expect_is(x[["line"]], "sfc")
+  expect_equal(nrow(x[["line"]][[1]]), 2)
+})
+
+test_that("A pair of points create a line", {
+  x <- tibble::tibble(
+    g = c("a", "a"),
+    origin      = c(st_point(12, 21), st_point(21, 12)),
+    destination = c(st_point(13, 22), st_point(22, 13))
+  ) %>%
+    mutate(line = st_makeline(origin, destination))
   expect_is(x[["line"]], "sfc_LINESTRING")
   expect_is(x[["line"]], "sfc")
   expect_equal(nrow(x[["line"]][[1]]), 2)
@@ -195,8 +211,8 @@ test_that("st_coordinates returns a `.path` for each point", {
 
   expect_equal(names(st_coordinates(x)[[1]]), c(".x", ".y", ".path"))
   x <- st_multi(x)
-  expect_equal(names(st_coordinates(x)[[1]]), c(".x", ".y", ".l1", ".path"))
+  expect_equal(names(st_coordinates(x)[[1]]), c(".x", ".y", ".path", ".l1"))
   x <- st_makeline(x)
-  expect_equal(names(st_coordinates(x)[[1]]), c(".x", ".y", ".l1", ".path"))
-  # todo: add other types
+  expect_equal(names(st_coordinates(x)[[1]]), c(".x", ".y", ".path", ".l1"))
+  # todo: add other typesD
 })

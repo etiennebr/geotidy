@@ -5,11 +5,17 @@
 \alias{map2_sfc}
 \title{Apply a function to each element of a vector and bind to an sfc object}
 \usage{
-map_sfc(.x, .f, ..., .crs = NA_crs_, .precision = 0,
-  .check_ring_dir = FALSE)
+map_sfc(.x, .f, ..., .crs = NA_crs_, .precision = 0, .check_ring_dir = FALSE)
 
-map2_sfc(.x, .y, .f, ..., .crs = NA_crs_, .precision = 0,
-  .check_ring_dir = FALSE)
+map2_sfc(
+  .x,
+  .y,
+  .f,
+  ...,
+  .crs = NA_crs_,
+  .precision = 0,
+  .check_ring_dir = FALSE
+)
 }
 \arguments{
 \item{.x}{Vectors of the same length. A vector of length 1 will

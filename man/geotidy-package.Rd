@@ -13,7 +13,7 @@ Manipulate spatial data tidily. `Geotidy` provides a selection of
     the spatial operations you desire.
 }
 \author{
-\strong{Maintainer}: Etienne Racine \email{etiennebr@gmail.com} (0000-0003-1109-894X)
+\strong{Maintainer}: Etienne Racine \email{etiennebr@gmail.com} (\href{https://orcid.org/0000-0003-1109-894X}{ORCID})
 
 }
 \keyword{internal}

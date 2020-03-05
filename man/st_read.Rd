@@ -7,15 +7,17 @@
 st_read(...)
 }
 \arguments{
-\item{...}{Arguments passed on to \code{sf::read_sf}
-\describe{
-  \item{quiet}{logical; suppress info on name, driver, size and spatial
+\item{...}{
+  Arguments passed on to \code{\link[sf:read_sf]{sf::read_sf}}
+  \describe{
+    \item{\code{quiet}}{logical; suppress info on name, driver, size and spatial
 reference, or signaling no or multiple layers}
-  \item{stringsAsFactors}{logical; logical: should character vectors be
-converted to factors?  The `factory-fresh' default is \code{TRUE}, but this
-can be changed by setting \code{options(stringsAsFactors = FALSE)}.}
-  \item{as_tibble}{logical; should the returned table be of class tibble or data.frame?}
-}}
+    \item{\code{stringsAsFactors}}{logical; logical: should character vectors be
+converted to factors?  The `factory-fresh' default is \code{TRUE} for 
+\code{st_read} and \code{FALSE} for \code{read_sf}, but this can be changed 
+globally by e.g. the R command \code{options(stringsAsFactors = FALSE)}.}
+    \item{\code{as_tibble}}{logical; should the returned table be of class tibble or data.frame?}
+  }}
 }
 \description{
 Read

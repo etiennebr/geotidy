@@ -36,7 +36,6 @@ st_makepoint <- function(x, y) {
 }
 
 #' @rdname st_point
-#' @inheritParams st_makepoint
 #' @export
 st_point <- st_makepoint
 
@@ -85,8 +84,14 @@ st_multi.sfc_MULTIPOINT <- function(.geom, ...) {
 #' library(dplyr)
 #' library(tibble)
 #'
-#' x <- tibble(g = c("a", "a"), point = c(st_point(12, 21), st_point(21, 12)))
+#' x <- tibble(
+#'   g = c("a", "a", "b"),
+#'   point = c(st_point(12, 21), st_point(21, 12), st_point(11, 11))
+#' )
 #' x %>%
+#'   group_by(g) %>%
+#'   # make sure we create lines with more than one point
+#'   filter(n() > 1) %>%
 #'  summarise(line = st_makeline(point))
 #' @export
 st_makeline <- function(.geom, .to, ...) UseMethod("st_makeline")
@@ -95,6 +100,14 @@ st_makeline <- function(.geom, .to, ...) UseMethod("st_makeline")
 st_makeline.sfc_POINT <- function(.geom, .to, ...) {
   if(!missing(.to)) {
     return(cast_combine(.geom, .to, .cast = "LINESTRING", .by_feature = TRUE))
+  }
+  if (sum(st_numpoints(.geom)) < 2) {
+    # We could return:
+    #   - a linestring with a single vertex (postgis does it)
+    #   - an empty linestring
+    #   - the point
+    # But we go for a strict behavior
+    stop("A line must contain at least 2 points.", call. = FALSE)
   }
   cast_combine(.geom, .cast = "LINESTRING")
 }
@@ -129,7 +142,6 @@ st_makeline.numeric <- function(.geom, .to, ...) {
     if (length(x) == 1) x <- rep(x, length(y))
     if (length(y) == 1) y <- rep(y, length(x))
   }
-
   st_makeline(purrr::map2(x, y, st_point))
 }
 
@@ -146,6 +158,28 @@ cast_combine <- function(x, y, .cast, .by_feature = FALSE, ...) {
   sf::st_cast(pairs, to = .cast, ...)
 }
 
+#' List of vertex coordinates
+#'
+#' @rdname st_coordinates
+#' @param x Geometry `sfc` column
+#' @details `st_coordinates` returns a tibble containing coordinates, also some
+#'   grouping features. `POINT`: `.path = 1`; `MULTIPOINT` and `LINESTRING`: `.path` orders the
+#'   points; `LINESTRING`, `MULTILINESTRING` and `POLYGON`: `.l_` provides feature differentiation.
+#' @seealso [sf::st_cast()], [st_dumppoints()], [sf::st_coordinates()]
+#' @return A list of tibbles.
+#' @export
+st_coordinates <- function(x) {
+  purrr::map(x, .st_coordinates)
+}
+
+#' @importFrom rlang .data
+.st_coordinates <- function(.x) {
+  tibble::as_tibble(sf::st_coordinates(.x)) %>%
+    purrr::set_names(~tolower(paste0(".", .x))) %>%
+    dplyr::mutate(.path = dplyr::row_number()) %>%
+    dplyr::select(.x, .data$.y, .data$.path, dplyr::everything())
+}
+
 #' Dump vertex to a nested tibble of points
 #'
 #' Creates a geometry column containing a tibble where each vertex is a row.
@@ -153,10 +187,10 @@ cast_combine <- function(x, y, .cast, .by_feature = FALSE, ...) {
 #' in that it creates new rows. For example it can be used to expand
 #' MULTIPOLYGONS into POLYGONS.
 #' @param x Geometry `sfc` column
-#' @rdname st_coordinates
 #' @return A list of tibbles.
 #' @seealso [sf::st_cast()], [st_coordinates()], [sf::st_coordinates()]
 #' @export
+
 st_dumppoints <- function(x) {
   purrr::map(x, .st_dumppoints)
 }
@@ -167,22 +201,5 @@ st_dumppoints <- function(x) {
     .st_coordinates(x),
     geom = st_point(.data$.x, .data$.y),
     path = row_number()
-    )
-}
-
-#' List of vertex coordinates
-#'
-#' @rdname st_coordinates
-#' @details `st_coordinates` returns a tibble containing coordinates, also some
-#'   grouping features. `POINT`: `.path = 1`; `MULTIPOINT`: `.path` orders the
-#'   points; `LINESTRING`: ``
-#' @export
-st_coordinates <- function(x) {
-  purrr::map(x, .st_coordinates)
-}
-
-.st_coordinates <- function(.x) {
-  tibble::as_tibble(sf::st_coordinates(.x)) %>%
-    purrr::set_names(~tolower(paste0(".", .x))) %>%
-    dplyr::mutate(.path = dplyr::row_number())
+  )
 }

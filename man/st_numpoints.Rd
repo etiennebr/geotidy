@@ -24,7 +24,9 @@ tibble(x = 1:2, y = 3:4) \%>\%
   summarise(line = st_makeline(geom), n = st_numpoints(line))
 }
 \seealso{
-Other make: \code{\link{st_makeline}},
-  \code{\link{st_makepoint}}, \code{\link{st_multi}}
+Other make: 
+\code{\link{st_makeline}()},
+\code{\link{st_makepoint}()},
+\code{\link{st_multi}()}
 }
 \concept{make}
