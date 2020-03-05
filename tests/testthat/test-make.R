@@ -211,8 +211,8 @@ test_that("st_coordinates returns a `.path` for each point", {
 
   expect_equal(names(st_coordinates(x)[[1]]), c(".x", ".y", ".path"))
   x <- st_multi(x)
-  expect_equal(names(st_coordinates(x)[[1]]), c(".x", ".y", ".l1", ".path"))
+  expect_equal(names(st_coordinates(x)[[1]]), c(".x", ".y", ".path", ".l1"))
   x <- st_makeline(x)
-  expect_equal(names(st_coordinates(x)[[1]]), c(".x", ".y", ".l1", ".path"))
-  # todo: add other types
+  expect_equal(names(st_coordinates(x)[[1]]), c(".x", ".y", ".path", ".l1"))
+  # todo: add other typesD
 })

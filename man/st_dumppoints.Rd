@@ -19,5 +19,5 @@ in that it creates new rows. For example it can be used to expand
 MULTIPOLYGONS into POLYGONS.
 }
 \seealso{
-\code{\link[sf:st_cast]{sf::st_cast()}}, \code{\link[=st_coordinates]{st_coordinates()}}
+\code{\link[sf:st_cast]{sf::st_cast()}}, \code{\link[=st_coordinates]{st_coordinates()}}, \code{\link[sf:st_coordinates]{sf::st_coordinates()}}
 }
